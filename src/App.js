@@ -44,9 +44,39 @@ const App = () => {
     };
   }, [activeSection]); // Run effect when activeSection changes
 
+  const handleSidebarClick = (section) => {
+    setActiveSection(section);
+    document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const getOppositeBackColor = (theme) => {
+    return theme === 'dark' ? '#E5E5EA' : '#141416'; // Dark theme gives white color and vice versa
+  };
+
+  const getOppositeColor = (theme) => {
+    return theme === 'dark' ? '#141416' : '#E5E5EA'; // Dark theme gives white color and vice versa
+  };
+
   return (
     <div className="App">
       <NavBar />
+      <div className="sidebar">
+        <div className="scrollbar">
+          {sections.map((section, index) => (
+            <div
+              key={index}
+              className={`scrollbar-section ${activeSection === section ? 'active' : ''}`}
+              onClick={() => handleSidebarClick(section)}
+              style={{
+                backgroundColor: activeSection === section ? getOppositeBackColor(theme) : getOppositeColor(theme),
+                color: activeSection === section ? getOppositeColor(theme) : getOppositeBackColor(theme),
+              }}
+            >
+              {`0${index}`}
+            </div>
+          ))}
+        </div>
+      </div>
       <Element name="home" className="section home" id="home">
         <h2>Home Section</h2>
       </Element>

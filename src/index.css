@@ -111,3 +111,35 @@ code {
 .contact {
   
 }
+
+.sidebar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scrollbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scrollbar-section {
+  background-color: transparent;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scrollbar-section.active {
+  border-radius: 5px;
+}
+
+.scrollbar-section:hover {
+  border-radius: 5px;
+}

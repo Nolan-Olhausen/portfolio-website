@@ -1,12 +1,12 @@
 /* Default dark theme styles */
 body[data-theme='dark'] {
-  background-color: #282c34;
+  background-color: #141416;
   color: #e0e0e0;
 }
 
 /* Default light theme styles */
 body[data-theme='light'] {
-  background-color: #ffffff;
+  background-color: #E5E5EA;
   color: #121212;
 }
 

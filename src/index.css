@@ -25,6 +25,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent the body from showing a scrollbar */
 }
 
 code {
@@ -80,4 +81,33 @@ code {
   display: flex;
   align-items: center;
   margin-right: 25px;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home {
+  
+}
+
+.about {
+  
+}
+
+.skills {
+  
+}
+
+.portfolio {
+  
+}
+
+.contact {
+  
 }

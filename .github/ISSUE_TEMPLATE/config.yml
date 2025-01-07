@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Optional - Definition of Done
+    url: https://github.com/BoiseState/CS471-F24-Team[TBD1-19]/wiki/Definition-of-Done
+    about: Definition of Done on our wiki page
+  - name: Optional - Additional Resource
+    url: https://github.com/BoiseState/TBD
+    about: Remove or customize these links in .github/ISSUE_TEMPLATE/config.yml

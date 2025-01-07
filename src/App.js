@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useContext } from 'react';
 import { ThemeContext } from './context/ThemeContext';
+import NavBar from "./components/NavBar";
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -11,9 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <button onClick={toggleTheme}>Toggle Theme</button>
-      </header>
+      <NavBar />
     </div>
   );
 }

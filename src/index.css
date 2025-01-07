@@ -25,6 +25,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent the body from showing a scrollbar */
 }
 
 code {
@@ -92,21 +93,21 @@ code {
 }
 
 .home {
-  background-color: #f5f5f5;
+  
 }
 
 .about {
-  background-color: #e0e0e0;
+  
 }
 
 .skills {
-  background-color: #d0d0d0;
+  
 }
 
 .portfolio {
-  background-color: #c0c0c0;
+  
 }
 
 .contact {
-  background-color: #b0b0b0;
+  
 }

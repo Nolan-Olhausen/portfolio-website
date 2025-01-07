@@ -49,6 +49,14 @@ const App = () => {
     document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
   };
 
+  const getOppositeBackColor = (theme) => {
+    return theme === 'dark' ? '#E5E5EA' : '#141416'; // Dark theme gives white color and vice versa
+  };
+
+  const getOppositeColor = (theme) => {
+    return theme === 'dark' ? '#141416' : '#E5E5EA'; // Dark theme gives white color and vice versa
+  };
+
   return (
     <div className="App">
       <NavBar />
@@ -59,6 +67,10 @@ const App = () => {
               key={index}
               className={`scrollbar-section ${activeSection === section ? 'active' : ''}`}
               onClick={() => handleSidebarClick(section)}
+              style={{
+                backgroundColor: activeSection === section ? getOppositeBackColor(theme) : getOppositeColor(theme),
+                color: activeSection === section ? getOppositeColor(theme) : getOppositeBackColor(theme),
+              }}
             >
               {`0${index}`}
             </div>

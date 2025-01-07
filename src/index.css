@@ -131,20 +131,15 @@ code {
 
 .scrollbar-section {
   background-color: transparent;
-  color: #fff;
   padding: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .scrollbar-section.active {
-  background-color: #fff;
-  color: #333;
   border-radius: 5px;
 }
 
 .scrollbar-section:hover {
-  background-color: #fff;
-  color: #333;
   border-radius: 5px;
 }

@@ -44,9 +44,27 @@ const App = () => {
     };
   }, [activeSection]); // Run effect when activeSection changes
 
+  const handleSidebarClick = (section) => {
+    setActiveSection(section);
+    document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="App">
       <NavBar />
+      <div className="sidebar">
+        <div className="scrollbar">
+          {sections.map((section, index) => (
+            <div
+              key={index}
+              className={`scrollbar-section ${activeSection === section ? 'active' : ''}`}
+              onClick={() => handleSidebarClick(section)}
+            >
+              {`0${index}`}
+            </div>
+          ))}
+        </div>
+      </div>
       <Element name="home" className="section home" id="home">
         <h2>Home Section</h2>
       </Element>

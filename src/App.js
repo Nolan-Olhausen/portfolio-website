@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import NavBar from "./components/NavBar";
 import { Element } from 'react-scroll';
+import ModelViewer from './components/ModelViewer';
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -78,19 +79,49 @@ const App = () => {
         </div>
       </div>
       <Element name="home" className="section home" id="home">
-        <h2>Home Section</h2>
+        <div className="text">
+          <h2>Home Section</h2>
+          <p>Welcome to the home section of the page.</p>
+        </div>
+        <div className="model">
+          <ModelViewer modelPath="/models/cube.glb" />
+        </div>
       </Element>
       <Element name="about" className="section about" id="about">
-        <h2>About Section</h2>
+        <div className="text">
+          <h2>About Section</h2>
+          <p>Here is some information about me.</p>
+        </div>
+        <div className="model">
+          <ModelViewer modelPath="/models/cube.glb" />
+        </div>
       </Element>
       <Element name="skills" className="section skills" id="skills">
-        <h2>Skills Section</h2>
+        <div className="text">
+          <h2>Skills Section</h2>
+          <p>These are some of my skills.</p>
+        </div>
+        <div className="model">
+          <ModelViewer modelPath="/models/cube.glb" />
+        </div>
       </Element>
       <Element name="portfolio" className="section portfolio" id="portfolio">
-        <h2>Portfolio Section</h2>
+        <div className="text">
+          <h2>Portfolio Section</h2>
+          <p>Check out my work!</p>
+        </div>
+        <div className="model">
+          <ModelViewer modelPath="/models/cube.glb" />
+        </div>
       </Element>
       <Element name="contact" className="section contact" id="contact">
-        <h2>Contact Section</h2>
+        <div className="text">
+          <h2>Contact Section</h2>
+          <p>Get in touch with me.</p>
+        </div>
+        <div className="model">
+          <ModelViewer modelPath="/models/cube.glb" />
+        </div>
       </Element>
     </div>
   );

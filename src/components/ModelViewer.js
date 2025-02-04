@@ -1,9 +1,88 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useErrorBoundary } from "use-error-boundary";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+
+const RotatingGroup = ({ children, ...props }) => {
+  const groupRef = useRef();
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.z += delta * -0.1; // Adjust rotation speed here
+    }
+  });
+
+  return (
+    <group ref={groupRef} {...props}>
+      {children}
+    </group>
+  );
+};
+
+const useDetectVisibility = (meshRef, camera) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useFrame(() => {
+    if (!camera || !meshRef.current) return;
+
+    const frustum = new THREE.Frustum();
+    const cameraViewProjectionMatrix = new THREE.Matrix4();
+
+    camera.updateMatrixWorld(); // Update camera matrix
+    camera.matrixWorldInverse.copy(camera.matrixWorld).invert(); // Get the inverse of the camera matrix
+    cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse); // Create the camera view projection matrix
+    frustum.setFromProjectionMatrix(cameraViewProjectionMatrix); // Update the frustum
+
+    const meshWorldPosition = new THREE.Vector3();
+    meshRef.current.getWorldPosition(meshWorldPosition);
+    setIsVisible(frustum.containsPoint(meshWorldPosition)); // Check if the mesh is within the camera's frustum
+  });
+
+  return isVisible;
+};
+
+const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTooltipPosition }) => {
+  const { camera, scene } = useThree();
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handlePointerOverInternal = (event) => {
+    if (isVisible) {
+      handlePointerOver(event);
+    }
+  };
+
+  useFrame(() => {
+    if (!camera || !pinRef.current) return;
+
+    // Check if pin is occluded by the globe
+    const pinWorldPosition = new THREE.Vector3();
+    pinRef.current.getWorldPosition(pinWorldPosition);
+
+    const direction = pinWorldPosition.clone().sub(camera.position).normalize();
+    const raycaster = new THREE.Raycaster(camera.position, direction);
+    const intersects = raycaster.intersectObject(scene, true);
+
+    setIsVisible(
+      intersects.length > 0 &&
+      intersects[0].object === pinRef.current
+    );
+  });
+
+  return (
+    <mesh
+      position={position}
+      ref={pinRef}
+      onPointerOver={handlePointerOverInternal}
+      onPointerMove={updateTooltipPosition}
+      onPointerOut={handlePointerOut}
+    >
+      <sphereGeometry args={[0.05, 16, 16]} />
+      <meshStandardMaterial color="red" />
+    </mesh>
+  );
+};
 
 const ModelViewer = ({ props, modelPath }) => {
   const { nodes, materials } = useGLTF(modelPath);
@@ -11,7 +90,6 @@ const ModelViewer = ({ props, modelPath }) => {
   const firstMaterial = Object.values(materials)[0];
   const globeScale = 3;
 
-  // Apply emissive material properties
   if (firstMaterial) {
     firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
     firstMaterial.emissiveIntensity = 2; // Adjust brightness
@@ -53,7 +131,6 @@ const ModelViewer = ({ props, modelPath }) => {
     const pinWorldPosition = new THREE.Vector3();
     pinRef.current.getWorldPosition(pinWorldPosition);
 
-    // Convert 3D position to 2D screen coordinates
     const screenPosition = pinWorldPosition.project(camera);
     const x = (screenPosition.x + 1) * (canvasRect.width / 2);
     const y = -(screenPosition.y - 1) * (canvasRect.height / 2);
@@ -65,12 +142,11 @@ const ModelViewer = ({ props, modelPath }) => {
     <div>{error.message}</div>
   ) : (
     <div style={{ width: 400, height: 400, position: "relative" }}>
-      
-
       <Canvas
         ref={canvasRef}
         onCreated={({ camera }) => {
           setCamera(camera);
+          camera.layers.enable(1); // Enable layer 1 for the camera
         }}
         fallback={<div>Sorry, no WebGL supported!</div>}
         hdr
@@ -79,24 +155,23 @@ const ModelViewer = ({ props, modelPath }) => {
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />
 
-        <group {...props} dispose={null} rotation={[-Math.PI / 2, 0, 0]}>
-          {/* Render the globe */}
-          <mesh geometry={firstMesh.geometry} material={firstMaterial} scale={[globeScale, globeScale, globeScale]} />
-
-          {/* Pin Mesh */}
+        <RotatingGroup {...props} rotation={[-Math.PI / 2, 0, 0]}>
           <mesh
+            geometry={firstMesh.geometry}
+            material={firstMaterial}
+            scale={[globeScale, globeScale, globeScale]}
+            layers={[0]} // Set globe to layer 0
+            renderOrder={0}
+          />
+          <Pin
             position={pinPosition}
-            ref={pinRef}
-            onPointerOver={handlePointerOver}
-            onPointerMove={updateTooltipPosition}
-            onPointerOut={handlePointerOut}
-          >
-            <sphereGeometry args={[0.05, 16, 16]} />
-            <meshStandardMaterial color="red" />
-          </mesh>
-        </group>
+            pinRef={pinRef}
+            handlePointerOver={handlePointerOver}
+            handlePointerOut={handlePointerOut}
+            updateTooltipPosition={updateTooltipPosition}
+          />
+        </RotatingGroup>
 
-        {/* Post-processing Effects */}
         <EffectComposer>
           <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.3} intensity={1} />
         </EffectComposer>
@@ -126,4 +201,5 @@ const ModelViewer = ({ props, modelPath }) => {
 };
 
 export default ModelViewer;
+
 

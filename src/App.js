@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import NavBar from "./components/NavBar";
 import { Element } from 'react-scroll';
-import ModelViewer from './components/ModelViewer';
+import GlobeViewer from './components/GlobeViewer';
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -84,7 +84,7 @@ const App = () => {
           <p>Welcome to the home section of the page.</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+
         </div>
       </Element>
       <Element name="about" className="section about" id="about">
@@ -93,7 +93,7 @@ const App = () => {
           <p>Here is some information about me.</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+
         </div>
       </Element>
       <Element name="skills" className="section skills" id="skills">
@@ -102,7 +102,7 @@ const App = () => {
           <p>These are some of my skills.</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+
         </div>
       </Element>
       <Element name="portfolio" className="section portfolio" id="portfolio">
@@ -111,7 +111,7 @@ const App = () => {
           <p>Check out my work!</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+
         </div>
       </Element>
       <Element name="contact" className="section contact" id="contact">
@@ -120,7 +120,7 @@ const App = () => {
           <p>Get in touch with me.</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+          <GlobeViewer modelPath="/models/globe.glb" />
         </div>
       </Element>
     </div>

@@ -1,0 +1,33 @@
+.navbar {
+    position: fixed; /* Makes the navbar stick at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent; /* Transparent background */
+    box-shadow: none; /* Remove any box shadow */
+    z-index: 1000; /* Keep it on top */
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .contact-button {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 8px 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .contact-button:hover {
+    background-color: #fff;
+    color: #333;
+  }

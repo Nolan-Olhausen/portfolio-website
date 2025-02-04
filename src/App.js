@@ -120,7 +120,7 @@ const App = () => {
           <p>Get in touch with me.</p>
         </div>
         <div className="model">
-          <ModelViewer modelPath="/models/cube.glb" />
+          <ModelViewer modelPath="/models/globe.glb" />
         </div>
       </Element>
     </div>

@@ -10,7 +10,7 @@ const RotatingGroup = ({ children, ...props }) => {
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.z += delta * -0.1; // Adjust rotation speed here
+      groupRef.current.rotation.z += delta * -0.2; // Adjust rotation speed here
     }
   });
 
@@ -79,12 +79,16 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
       onPointerOut={handlePointerOut}
     >
       <sphereGeometry args={[0.05, 16, 16]} />
-      <meshStandardMaterial color="red" />
+      <meshStandardMaterial 
+        color="red" 
+        emissive={new THREE.Color(0xff0000)} // Set the emissive color to red
+        emissiveIntensity={1} // Adjust the intensity of the emission
+      />
     </mesh>
   );
 };
 
-const ModelViewer = ({ props, modelPath }) => {
+const GlobeViewer = ({ props, modelPath }) => {
   const { nodes, materials } = useGLTF(modelPath);
   const firstMesh = Object.values(nodes).find((node) => node.isMesh);
   const firstMaterial = Object.values(materials)[0];
@@ -200,6 +204,6 @@ const ModelViewer = ({ props, modelPath }) => {
   );
 };
 
-export default ModelViewer;
+export default GlobeViewer;
 
 

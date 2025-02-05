@@ -104,9 +104,16 @@ code {
   align-items: center;
 }
 
+.section .image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Alternate alignment for even sections */
 .section:nth-child(even) .text {
-  text-align: right;
+  text-align: left;
 }
 
 /* Flip the order of text and model for even sections */
@@ -122,6 +129,54 @@ code {
 .model {
   width: 400px;
   height: 400px;
+}
+
+.image-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.circle-bg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  z-index: -1; /* Sends it behind */
+}
+
+.headshot {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  opacity: 0.5; /* Dark mode */
+  object-fit: cover;
+}
+
+.skills-container {
+  height: 400px;
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.skill-icon {
+  font-size: 60px; /* Adjust size */
+  margin-bottom: 0px;
+}
+
+.skill-item p {
+  font-size: 0.75rem;
+  margin: 0;
 }
 
 .home {

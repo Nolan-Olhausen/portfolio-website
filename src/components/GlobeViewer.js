@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useErrorBoundary } from "use-error-boundary";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { ThemeContext } from '../context/ThemeContext';
 
 const RotatingGroup = ({ children, ...props }) => {
   const groupRef = useRef();
@@ -80,8 +81,8 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
     >
       <sphereGeometry args={[0.05, 16, 16]} />
       <meshStandardMaterial 
-        color="red" 
-        emissive={new THREE.Color(0xff0000)} // Set the emissive color to red
+        color="#FF8C1A" 
+        emissive={new THREE.Color(0xFF8C1A)} // Set the emissive color to red
         emissiveIntensity={1} // Adjust the intensity of the emission
       />
     </mesh>
@@ -89,14 +90,19 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
 };
 
 const GlobeViewer = ({ props, modelPath }) => {
+  const { theme } = useContext(ThemeContext);
   const { nodes, materials } = useGLTF(modelPath);
   const firstMesh = Object.values(nodes).find((node) => node.isMesh);
   const firstMaterial = Object.values(materials)[0];
   const globeScale = 3;
 
-  if (firstMaterial) {
+  if (firstMaterial && theme == 'dark') {
     firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
     firstMaterial.emissiveIntensity = 2; // Adjust brightness
+    firstMaterial.side = THREE.FrontSide;
+  } else {
+    firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
+    firstMaterial.emissiveIntensity = 1; // Adjust brightness
     firstMaterial.side = THREE.FrontSide;
   }
 

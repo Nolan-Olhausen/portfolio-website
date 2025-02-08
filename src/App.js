@@ -64,6 +64,31 @@ const App = () => {
     return theme === "dark" ? "#141416" : "#E5E5EA"; // Dark theme gives white color and vice versa
   };
 
+  // Set up IntersectionObserver to detect the section in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 } // Trigger when 50% of the section is in view
+    );
+
+    sections.forEach((section) => {
+      const element = document.getElementById(section);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      observer.disconnect(); // Clean up the observer on component unmount
+    };
+  }, []);
+
   return (
     <div className="App">
       <NavBar />

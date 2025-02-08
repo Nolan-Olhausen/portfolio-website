@@ -12,10 +12,26 @@ const NavBar = () => {
         <h1>My Portfolio</h1>
       </div>
       <div className="navbar-right">
-        <button className="theme-toggle" onClick={toggleTheme}>
-          {theme === "dark" ? "🌙" : "🌞"}
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={theme === "dark"}
+            onChange={toggleTheme}
+          />
+          <span className="slider">
+            <span className="emoji">{theme === "dark" ? "🌙" : "🌞"}</span>
+          </span>
+        </label>
+        <button
+          className="contact-button"
+          onClick={() =>
+            document
+              .getElementById("contact")
+              .scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          Contact
         </button>
-        <button className="contact-button">Contact</button>
       </div>
     </nav>
   );

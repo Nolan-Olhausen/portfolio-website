@@ -141,6 +141,46 @@ body[data-theme='dark'] {
   z-index: 1000; /* Keep it on top */
 }
 
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; /* Transparent background */
+  box-shadow: none; /* Remove any box shadow */
+  z-index: 1000;
+}
+
+.scroll-to-next {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Space from the content */
+}
+
+.scroll-to-next p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  color: #333; /* Adjust color as needed */
+}
+
+.arrow {
+  margin-top: 0px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.3s ease;
+}
+
+.arrow:hover {
+  transform: translateY(5px); /* Slight downward motion on hover */
+}
+
 .navbar-right {
   display: flex;
   align-items: center;
@@ -152,7 +192,7 @@ body[data-theme='dark'] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 50px;
   box-sizing: border-box;
 }
 
@@ -243,23 +283,23 @@ body[data-theme='dark'] {
   margin: 0;
 }
 
-.home {
+.Home {
   
 }
 
-.about {
+.About {
   
 }
 
-.skills {
+.Skills {
   
 }
 
-.portfolio {
+.Portfolio {
   
 }
 
-.contact {
+.Contact {
   
 }
 

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaLinkedin, FaEnvelope, FaPhone, FaGithub } from "react-icons/fa";
 import { ThemeContext } from "./context/ThemeContext";
 import NavBar from "./components/NavBar";
+import BottomSectionBar from "./components/BottomSectionBar";
 import { Element } from "react-scroll";
 import GlobeViewer from "./components/GlobeViewer";
 import Skills from "./components/SkillsComp";
@@ -15,7 +16,7 @@ const App = () => {
   // Set the theme in the HTML document's data-theme attribute
   document.body.setAttribute("data-theme", theme);
 
-  const sections = ["home", "about", "skills", "portfolio", "contact"];
+  const sections = ["Home", "About", "Skills", "Portfolio", "Contact"];
 
   // Scroll to next section smoothly
   const scrollToSection = (direction) => {
@@ -87,6 +88,7 @@ const App = () => {
   return (
     <div className="App">
       <NavBar />
+      
       <div className="sidebar">
         <div className="scrollbar">
           {sections.map((section, index) => (
@@ -114,7 +116,7 @@ const App = () => {
           ))}
         </div>
       </div>
-      <Element name="home" className="section home" id="home">
+      <Element name="Home" className="section Home" id="Home">
         <div className="text">
           <h1
             style={{
@@ -136,7 +138,7 @@ const App = () => {
         </div>
         <div className="model"></div>
       </Element>
-      <Element name="about" className="section about" id="about">
+      <Element name="About" className="section About" id="About">
         <div className="text">
           <h1
             style={{
@@ -183,7 +185,7 @@ const App = () => {
           />
         </div>
       </Element>
-      <Element name="skills" className="section skills" id="skills">
+      <Element name="Skills" className="section Skills" id="Skills">
         <div className="text">
           <h1
             style={{
@@ -225,7 +227,7 @@ const App = () => {
         </div>
         <Skills />
       </Element>
-      <Element name="portfolio" className="section portfolio" id="portfolio">
+      <Element name="Portfolio" className="section Portfolio" id="Portfolio">
         <div className="text">
           <h1
             style={{
@@ -256,7 +258,7 @@ const App = () => {
         </div>
         <div className="model"></div>
       </Element>
-      <Element name="contact" className="section contact" id="contact">
+      <Element name="Contact" className="section Contact" id="Contact">
         <div className="text">
           <h2>Let’s Connect!</h2>
           <p>
@@ -320,6 +322,7 @@ const App = () => {
           <GlobeViewer modelPath="/models/globe.glb" />
         </div>
       </Element>
+      <BottomSectionBar sections={sections} currentSection={activeSection} />
     </div>
   );
 };

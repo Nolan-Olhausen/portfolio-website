@@ -82,7 +82,7 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
       <sphereGeometry args={[0.05, 16, 16]} />
       <meshStandardMaterial 
         color="#FF8C1A" 
-        emissive={new THREE.Color(0xFF8C1A)} // Set the emissive color to red
+        emissive={new THREE.Color(0xFF8C1A)} 
         emissiveIntensity={1} // Adjust the intensity of the emission
       />
     </mesh>
@@ -96,12 +96,13 @@ const GlobeViewer = ({ props, modelPath }) => {
   const firstMaterial = Object.values(materials)[0];
   const globeScale = 3;
 
-  if (firstMaterial && theme == 'dark') {
+  if (firstMaterial && theme === 'dark') {
     firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
     firstMaterial.emissiveIntensity = 2; // Adjust brightness
     firstMaterial.side = THREE.FrontSide;
   } else {
-    firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
+    firstMaterial.color.set(0x0A3D62);
+    firstMaterial.emissive = new THREE.Color(0x0A3D62); // Blue glow
     firstMaterial.emissiveIntensity = 1; // Adjust brightness
     firstMaterial.side = THREE.FrontSide;
   }

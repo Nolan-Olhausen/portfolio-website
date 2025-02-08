@@ -10,6 +10,7 @@ import Skills from "./components/SkillsComp";
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const [activeSection, setActiveSection] = useState("home"); // Track active section
+  const [hoveredSection, setHoveredSection] = useState(null);
 
   // Set the theme in the HTML document's data-theme attribute
   document.body.setAttribute("data-theme", theme);
@@ -95,13 +96,15 @@ const App = () => {
                 activeSection === section ? "active" : ""
               }`}
               onClick={() => handleSidebarClick(section)}
+              onMouseEnter={() => setHoveredSection(section)}
+              onMouseLeave={() => setHoveredSection(null)}
               style={{
                 backgroundColor:
-                  activeSection === section
+                  activeSection === section || hoveredSection === section
                     ? getOppositeBackColor(theme)
                     : getOppositeColor(theme),
                 color:
-                  activeSection === section
+                  activeSection === section || hoveredSection === section
                     ? getOppositeColor(theme)
                     : getOppositeBackColor(theme),
               }}
@@ -211,7 +214,7 @@ const App = () => {
             Check out my{" "}
             <a
               href="/path/to/resume.pdf"
-              style={{ color: "#FF8C1A", textDecoration: "none" }}
+              style={{ color: "#EC7601", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -242,7 +245,7 @@ const App = () => {
             out my{" "}
             <a
               href="https://github.com/Nolan-Olhausen"
-              style={{ color: "#FF8C1A", textDecoration: "none" }}
+              style={{ color: "#EC7601", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -273,7 +276,7 @@ const App = () => {
             Email:{" "}
             <a
               href="mailto:olhausennolan@gmail.com"
-              style={{ color: "#FF8C1A", textDecoration: "none" }}
+              style={{ color: "#EC7601", textDecoration: "none" }}
             >
               olhausennolan@gmail.com
             </a>{" "}
@@ -288,7 +291,7 @@ const App = () => {
             Phone:{" "}
             <a
               href="tel:+19517468058"
-              style={{ color: "#FF8C1A", textDecoration: "none" }}
+              style={{ color: "#EC7601", textDecoration: "none" }}
             >
               +1 951 746-8058
             </a>{" "}
@@ -303,7 +306,7 @@ const App = () => {
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/nolan-olhausen-8a0ab3280"
-              style={{ color: "#FF8C1A", textDecoration: "none" }}
+              style={{ color: "#EC7601", textDecoration: "none" }}
               target="_blank"
             >
               Nolan Olhausen

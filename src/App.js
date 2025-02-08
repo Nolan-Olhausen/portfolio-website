@@ -16,7 +16,7 @@ const App = () => {
 
   const sections = ["home", "about", "skills", "portfolio", "contact"];
 
-  // Scroll to next section
+  // Scroll to next section smoothly
   const scrollToSection = (direction) => {
     const currentIndex = sections.findIndex(
       (section) => section === activeSection
@@ -26,10 +26,7 @@ const App = () => {
     if (nextIndex < 0) nextIndex = 0;
     if (nextIndex >= sections.length) nextIndex = sections.length - 1;
 
-    // Update active section
-    setActiveSection(sections[nextIndex]);
-
-    // Scroll to the section
+    // Scroll without updating activeSection
     document
       .getElementById(sections[nextIndex])
       .scrollIntoView({ behavior: "smooth" });
@@ -49,19 +46,10 @@ const App = () => {
     return () => {
       window.removeEventListener("wheel", onWheel);
     };
-  }, [activeSection]); // Run effect when activeSection changes
+  }, [activeSection]);
 
   const handleSidebarClick = (section) => {
-    setActiveSection(section);
     document.getElementById(section).scrollIntoView({ behavior: "smooth" });
-  };
-
-  const getOppositeBackColor = (theme) => {
-    return theme === "dark" ? "#E5E5EA" : "#141416"; // Dark theme gives white color and vice versa
-  };
-
-  const getOppositeColor = (theme) => {
-    return theme === "dark" ? "#141416" : "#E5E5EA"; // Dark theme gives white color and vice versa
   };
 
   // Set up IntersectionObserver to detect the section in view
@@ -88,6 +76,12 @@ const App = () => {
       observer.disconnect(); // Clean up the observer on component unmount
     };
   }, []);
+
+  // Styles for scrollbar highlighting
+  const getOppositeBackColor = (theme) =>
+    theme === "dark" ? "#E5E5EA" : "#141416";
+  const getOppositeColor = (theme) =>
+    theme === "dark" ? "#141416" : "#E5E5EA";
 
   return (
     <div className="App">

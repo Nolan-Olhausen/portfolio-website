@@ -17,7 +17,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden; /* Prevent the body from showing a scrollbar */
+  overflow: hidden;
 }
 
 code {
@@ -101,23 +101,34 @@ input:checked + .slider .emoji {
   border-radius: 20px;
 }
 
+.nav-icon {
+  width: 75px;
+  height: 75px;
+}
+
 .contact-button:hover {
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
 
 .navbar {
-  position: fixed; /* Makes the navbar stick at the top */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: transparent; /* Transparent background */
   box-shadow: none; /* Remove any box shadow */
   z-index: 1000; /* Keep it on top */
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 10px; /* Add spacing between icon and text */
 }
 
 .bottom-bar {

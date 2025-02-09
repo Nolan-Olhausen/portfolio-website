@@ -21,7 +21,7 @@ const BottomSectionBar = ({ sections, currentSection }) => {
       <div className="bottom-bar">
         <div className="scroll-to-next">
           <p>
-            {currentSection === "Contact" ? "Scroll to Top" : `Scroll to ${nextSection || "next section"}`}
+            {currentSection === "Contact" ? "Back to Top" : `Scroll to ${nextSection || "next section"}`}
           </p>
           <div className="arrow" onClick={scrollToNext}>
             {currentSection === "Contact" ? <FaChevronUp /> : <FaChevronDown />}

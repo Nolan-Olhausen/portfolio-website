@@ -1,26 +1,22 @@
 import "./App.css";
 import React, {
-  useContext,
   useEffect,
   useState,
   useCallback,
   useMemo,
 } from "react";
-import { FaLinkedin, FaEnvelope, FaPhone, FaGithub } from "react-icons/fa";
-import { ThemeContext } from "./context/ThemeContext";
+import { FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 import NavBar from "./components/NavBar";
 import BottomSectionBar from "./components/BottomSectionBar";
 import { Element } from "react-scroll";
 import GlobeViewer from "./components/GlobeViewer";
 import Skills from "./components/SkillsComp";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import ComboScene from "./components/ComboScene";
 
 const App = () => {
-  const { theme } = useContext(ThemeContext);
   const [activeSection, setActiveSection] = useState("Home"); // Track active section
   const [hoveredSection, setHoveredSection] = useState(null);
-
-  // Set the theme in the HTML document's data-theme attribute
-  document.body.setAttribute("data-theme", theme);
 
   const sections = useMemo(
     () => [
@@ -150,12 +146,6 @@ const App = () => {
     };
   }, [sections]);
 
-  // Styles for scrollbar highlighting
-  const getOppositeBackColor = (theme) =>
-    theme === "dark" ? "#E5E5EA" : "#141416";
-  const getOppositeColor = (theme) =>
-    theme === "dark" ? "#141416" : "#E5E5EA";
-
   return (
     <div className="App">
       <NavBar />
@@ -174,12 +164,12 @@ const App = () => {
               style={{
                 backgroundColor:
                   activeSection === section || hoveredSection === section
-                    ? getOppositeBackColor(theme)
+                    ? "#E5E5EA"
                     : "transparent",
                 color:
                   activeSection === section || hoveredSection === section
-                    ? getOppositeColor(theme)
-                    : getOppositeBackColor(theme),
+                    ? "#141416"
+                    : "#E5E5EA",
               }}
             >
               {`0${index}`}
@@ -207,7 +197,13 @@ const App = () => {
             mobile, or game development, I turn ideas into reality.
           </p>
         </div>
-        <div className="model"></div>
+        <div className="model">
+          <DotLottieReact
+            src="https://lottie.host/4705a227-b521-4acb-9121-b798b057dd2a/ylGZCFRjOb.lottie"
+            loop
+            autoplay
+          />
+        </div>
       </Element>
       <Element name="About" className="section About" id="About">
         <div className="text">
@@ -287,7 +283,7 @@ const App = () => {
             Check out my{" "}
             <a
               href="/path/to/resume.pdf"
-              style={{ color: "#EC7601", textDecoration: "none" }}
+              style={{ color: "#FE9900", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -321,11 +317,10 @@ const App = () => {
               a social media platform, providing a user-friendly environment for
               interaction, sharing, and communication. The application allows
               users to create accounts, log in, and engage with content in a
-              variety of ways. This was my first exposure to web development, so
-              UI is fairly poor, but functionality is complex. <br />
+              variety of ways. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Twitter-Clone"
-                style={{ color: "#EC7601", textDecoration: "none" }}
+                style={{ color: "#FE9900", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -333,7 +328,9 @@ const App = () => {
               </a>
             </p>
           </div>
-          <div className="model"><img src="images/websitePics.png" width="400" height="400" /></div>
+          <div className="model">
+            <img src="images/websitePics.png" width="400" height="400" />
+          </div>
         </Element>
         <Element
           name="EaglesBrew"
@@ -360,7 +357,7 @@ const App = () => {
               dynamically loaded from API. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Mobile-Ordering-App"
-                style={{ color: "#EC7601", textDecoration: "none" }}
+                style={{ color: "#FE9900", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -395,7 +392,7 @@ const App = () => {
               <br />
               <a
                 href="https://github.com/Nolan-Olhausen/GBA-Emulator"
-                style={{ color: "#EC7601", textDecoration: "none" }}
+                style={{ color: "#FE9900", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -431,7 +428,7 @@ const App = () => {
               more, check out my{" "}
               <a
                 href="https://github.com/Nolan-Olhausen"
-                style={{ color: "#EC7601", textDecoration: "none" }}
+                style={{ color: "#FE9900", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -440,7 +437,7 @@ const App = () => {
               !
             </p>
           </div>
-          <div className="model"></div>
+          <div className="model"><ComboScene /></div>
         </Element>
       </Element>
       <Element name="Contact" className="section Contact" id="Contact">
@@ -463,7 +460,7 @@ const App = () => {
             Email:{" "}
             <a
               href="mailto:olhausennolan@gmail.com"
-              style={{ color: "#EC7601", textDecoration: "none" }}
+              style={{ color: "#FE9900", textDecoration: "none" }}
             >
               olhausennolan@gmail.com
             </a>{" "}
@@ -478,7 +475,7 @@ const App = () => {
             Phone:{" "}
             <a
               href="tel:+19517468058"
-              style={{ color: "#EC7601", textDecoration: "none" }}
+              style={{ color: "#FE9900", textDecoration: "none" }}
             >
               +1 951 746-8058
             </a>{" "}
@@ -493,7 +490,7 @@ const App = () => {
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/nolan-olhausen-8a0ab3280"
-              style={{ color: "#EC7601", textDecoration: "none" }}
+              style={{ color: "#FE9900", textDecoration: "none" }}
               target="_blank"
             >
               Nolan Olhausen

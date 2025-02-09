@@ -1,21 +1,13 @@
-/* Default dark theme styles */
-body[data-theme='dark'] {
+body {
   background-color: #141416;
   color: #e0e0e0;
   --button-bg: transparent;
   --button-border: #e0e0e0;
   --button-hover-bg: #e0e0e0;
   --button-hover-color: #121212;
-}
-
-/* Default light theme styles */
-body[data-theme='light'] {
-  background-color: #E5E5EA;
-  color: #121212;
-  --button-bg: transparent;
-  --button-border: #121212;
-  --button-hover-bg: #121212;
-  --button-hover-color: #e0e0e0;
+  --switch-bg: transparent;
+  --switch-border: white;
+  --switch-circle: white;
 }
 
 body {
@@ -92,21 +84,7 @@ input:checked + .slider .emoji {
   transform: translateX(33px); /* Moves emoji with the circle */
 }
 
-/* Light Mode Styles */
-body[data-theme='light'] {
-  --switch-bg: transparent;
-  --switch-border: black;
-  --switch-circle: black;
-}
-
-/* Dark Mode Styles */
-body[data-theme='dark'] {
-  --switch-bg: transparent;
-  --switch-border: white;
-  --switch-circle: white;
-}
-
-.contact-button {
+.nav-button {
   background-color: var(--button-bg);
   color: var(--text-color);
   border: 2px solid var(--button-border);
@@ -284,18 +262,6 @@ body[data-theme='dark'] {
   margin: 0;
 }
 
-.Home {
-  
-}
-
-.About {
-  
-}
-
-.Skills {
-  
-}
-
 .Projects {
   width: 400vw;
 }
@@ -303,11 +269,6 @@ body[data-theme='dark'] {
 .Projects .Inner {
   width: 100vw;
   padding: 50px;
-}
-
-
-.Contact {
-  
 }
 
 .sidebar {

@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useErrorBoundary } from "use-error-boundary";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { ThemeContext } from '../context/ThemeContext';
 
 const RotatingGroup = ({ children, ...props }) => {
   const groupRef = useRef();
@@ -33,7 +32,10 @@ const useDetectVisibility = (meshRef, camera) => {
 
     camera.updateMatrixWorld(); // Update camera matrix
     camera.matrixWorldInverse.copy(camera.matrixWorld).invert(); // Get the inverse of the camera matrix
-    cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse); // Create the camera view projection matrix
+    cameraViewProjectionMatrix.multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse
+    ); // Create the camera view projection matrix
     frustum.setFromProjectionMatrix(cameraViewProjectionMatrix); // Update the frustum
 
     const meshWorldPosition = new THREE.Vector3();
@@ -44,7 +46,13 @@ const useDetectVisibility = (meshRef, camera) => {
   return isVisible;
 };
 
-const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTooltipPosition }) => {
+const Pin = ({
+  position,
+  pinRef,
+  handlePointerOver,
+  handlePointerOut,
+  updateTooltipPosition,
+}) => {
   const { camera, scene } = useThree();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -66,8 +74,7 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
     const intersects = raycaster.intersectObject(scene, true);
 
     setIsVisible(
-      intersects.length > 0 &&
-      intersects[0].object === pinRef.current
+      intersects.length > 0 && intersects[0].object === pinRef.current
     );
   });
 
@@ -80,9 +87,9 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
       onPointerOut={handlePointerOut}
     >
       <sphereGeometry args={[0.05, 16, 16]} />
-      <meshStandardMaterial 
-        color="#FF8C1A" 
-        emissive={new THREE.Color(0xFF8C1A)} 
+      <meshStandardMaterial
+        color="#FE9900"
+        emissive={new THREE.Color(0xFE9900)}
         emissiveIntensity={1} // Adjust the intensity of the emission
       />
     </mesh>
@@ -90,22 +97,14 @@ const Pin = ({ position, pinRef, handlePointerOver, handlePointerOut, updateTool
 };
 
 const GlobeViewer = ({ props, modelPath }) => {
-  const { theme } = useContext(ThemeContext);
   const { nodes, materials } = useGLTF(modelPath);
   const firstMesh = Object.values(nodes).find((node) => node.isMesh);
   const firstMaterial = Object.values(materials)[0];
   const globeScale = 3;
 
-  if (firstMaterial && theme === 'dark') {
-    firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
-    firstMaterial.emissiveIntensity = 2; // Adjust brightness
-    firstMaterial.side = THREE.FrontSide;
-  } else {
-    firstMaterial.color.set(0x0A3D62);
-    firstMaterial.emissive = new THREE.Color(0x0A3D62); // Blue glow
-    firstMaterial.emissiveIntensity = 1; // Adjust brightness
-    firstMaterial.side = THREE.FrontSide;
-  }
+  firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
+  firstMaterial.emissiveIntensity = 2; // Adjust brightness
+  firstMaterial.side = THREE.FrontSide;
 
   const { ErrorBoundary, didCatch, error } = useErrorBoundary();
 
@@ -184,10 +183,18 @@ const GlobeViewer = ({ props, modelPath }) => {
         </RotatingGroup>
 
         <EffectComposer>
-          <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.3} intensity={1} />
+          <Bloom
+            luminanceThreshold={0.5}
+            luminanceSmoothing={0.3}
+            intensity={1}
+          />
         </EffectComposer>
 
-        <OrbitControls enableZoom={false} maxPolarAngle={Math.PI} minPolarAngle={0} />
+        <OrbitControls
+          enableZoom={false}
+          maxPolarAngle={Math.PI}
+          minPolarAngle={0}
+        />
       </Canvas>
       {hovered && (
         <div
@@ -212,5 +219,3 @@ const GlobeViewer = ({ props, modelPath }) => {
 };
 
 export default GlobeViewer;
-
-

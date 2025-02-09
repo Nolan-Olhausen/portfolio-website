@@ -135,14 +135,18 @@ input:checked + .slider .emoji {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
-  padding: 10px 20px;
+  width: 100vw;
+  padding: 10px 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: transparent; /* Transparent background */
   box-shadow: none; /* Remove any box shadow */
   z-index: 1000;
+}
+
+.bottom-bar .nav-button {
+  margin-right: 60px;
 }
 
 .scroll-to-next {

@@ -198,11 +198,11 @@ const App = () => {
           </p>
         </div>
         <div className="model">
-          <DotLottieReact
-            src="https://lottie.host/4705a227-b521-4acb-9121-b798b057dd2a/ylGZCFRjOb.lottie"
-            loop
-            autoplay
-          />
+        <DotLottieReact
+      src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
+      loop
+      autoplay
+    />
         </div>
       </Element>
       <Element name="About" className="section About" id="About">

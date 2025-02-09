@@ -1,5 +1,11 @@
 import "./App.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { FaLinkedin, FaEnvelope, FaPhone, FaGithub } from "react-icons/fa";
 import { ThemeContext } from "./context/ThemeContext";
 import NavBar from "./components/NavBar";
@@ -10,36 +16,100 @@ import Skills from "./components/SkillsComp";
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
-  const [activeSection, setActiveSection] = useState("home"); // Track active section
+  const [activeSection, setActiveSection] = useState("Home"); // Track active section
   const [hoveredSection, setHoveredSection] = useState(null);
 
   // Set the theme in the HTML document's data-theme attribute
   document.body.setAttribute("data-theme", theme);
 
-  const sections = ["Home", "About", "Skills", "Portfolio", "Contact"];
+  const sections = useMemo(
+    () => [
+      "Home",
+      "About",
+      "Skills",
+      "Portfolio",
+      "Emulator",
+      "EaglesBrew",
+      "TwitterClone",
+      "Contact",
+    ],
+    []
+  );
+
+  const sidebarSections = useMemo(
+    () => ["Home", "About", "Skills", "Portfolio", "Contact"],
+    []
+  );
 
   // Scroll to next section smoothly
-  const scrollToSection = (direction) => {
-    const currentIndex = sections.findIndex(
-      (section) => section === activeSection
-    );
-    let nextIndex = currentIndex + direction;
+  const scrollToSection = useCallback(
+    (direction) => {
+      const currentIndex = sections.findIndex(
+        (section) => section === activeSection
+      );
+      let nextIndex = currentIndex + direction;
 
-    if (nextIndex < 0) nextIndex = 0;
-    if (nextIndex >= sections.length) nextIndex = sections.length - 1;
+      if (nextIndex < 0) nextIndex = 0;
+      if (nextIndex >= sections.length) nextIndex = sections.length - 1;
 
-    // Scroll without updating activeSection
-    document
-      .getElementById(sections[nextIndex])
-      .scrollIntoView({ behavior: "smooth" });
-  };
+      // Scroll to next section without updating activeSection
+      document
+        .getElementById(sections[nextIndex])
+        .scrollIntoView({ behavior: "smooth" });
+    },
+    [activeSection, sections]
+  );
 
   useEffect(() => {
     const onWheel = (event) => {
-      if (event.deltaY > 0) {
-        scrollToSection(1); // Scroll down
+      event.preventDefault(); // Prevent default vertical scroll behavior
+
+      const projects = document.querySelector(".Projects");
+      const projectWidth = window.innerWidth; // Each project takes up 100vw
+      const isProjects =
+        activeSection === "Portfolio" ||
+        activeSection === "Emulator" ||
+        activeSection === "EaglesBrew" ||
+        activeSection === "TwitterClone"; // Check if we're in the Projects section
+
+      if (isProjects) {
+        // Get current scroll position (translateX) of the projects container
+        const currentTranslateX = parseFloat(
+          window.getComputedStyle(projects).transform.split(",")[4] || 0
+        );
+
+        // Define the maximum scrollable position (last position where you can scroll)
+        const maxTranslateX = -(projects.scrollWidth - window.innerWidth);
+
+        // Check if we are at the first or last project before doing anything
+        if (currentTranslateX === 0 && event.deltaY < 0) {
+          // If at the first project and trying to scroll up, trigger vertical scroll up
+          scrollToSection(-1);
+          return; // Stop execution to prevent horizontal scroll
+        } else if (currentTranslateX === maxTranslateX && event.deltaY > 0) {
+          // If at the last project and trying to scroll down, trigger vertical scroll down
+          scrollToSection(1);
+          return; // Stop execution to prevent horizontal scroll
+        }
+
+        // If not at the start or end, continue handling horizontal scroll
+        let newTranslateX =
+          currentTranslateX + (event.deltaY > 0 ? -projectWidth : projectWidth);
+
+        // Prevent scrolling too far left or right
+        if (newTranslateX > 0) newTranslateX = 0; // Don't scroll beyond the first project
+        if (newTranslateX < maxTranslateX) newTranslateX = maxTranslateX; // Don't scroll beyond the last project
+
+        // Apply the translateX transform to shift the projects container
+        projects.style.transition = "transform 0.75s ease"; // Smooth transition
+        projects.style.transform = `translateX(${newTranslateX}px)`;
       } else {
-        scrollToSection(-1); // Scroll up
+        // Handle vertical scrolling for other sections
+        if (event.deltaY > 0) {
+          scrollToSection(1); // Scroll down
+        } else {
+          scrollToSection(-1); // Scroll up
+        }
       }
     };
 
@@ -48,7 +118,7 @@ const App = () => {
     return () => {
       window.removeEventListener("wheel", onWheel);
     };
-  }, [activeSection]);
+  }, [activeSection, scrollToSection]);
 
   const handleSidebarClick = (section) => {
     document.getElementById(section).scrollIntoView({ behavior: "smooth" });
@@ -60,6 +130,7 @@ const App = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // If we're scrolling through the Projects section, set activeSection to "Projects"
             setActiveSection(entry.target.id);
           }
         });
@@ -77,7 +148,7 @@ const App = () => {
     return () => {
       observer.disconnect(); // Clean up the observer on component unmount
     };
-  }, []);
+  }, [sections]);
 
   // Styles for scrollbar highlighting
   const getOppositeBackColor = (theme) =>
@@ -88,10 +159,10 @@ const App = () => {
   return (
     <div className="App">
       <NavBar />
-      
+
       <div className="sidebar">
         <div className="scrollbar">
-          {sections.map((section, index) => (
+          {sidebarSections.map((section, index) => (
             <div
               key={index}
               className={`scrollbar-section ${
@@ -104,7 +175,7 @@ const App = () => {
                 backgroundColor:
                   activeSection === section || hoveredSection === section
                     ? getOppositeBackColor(theme)
-                    : getOppositeColor(theme),
+                    : "transparent",
                 color:
                   activeSection === section || hoveredSection === section
                     ? getOppositeColor(theme)
@@ -227,36 +298,150 @@ const App = () => {
         </div>
         <Skills />
       </Element>
-      <Element name="Portfolio" className="section Portfolio" id="Portfolio">
-        <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
-            Portfolio & Projects
-          </h1>
-          <p>
-            Here are some of the projects I've worked on, showcasing my skills
-            in web, mobile, and game development. From building dynamic web apps
-            to crafting engaging mobile experiences and immersive games, I love
-            bringing ideas to life through code. If you want to see more, check
-            out my{" "}
-            <a
-              href="https://github.com/Nolan-Olhausen"
-              style={{ color: "#EC7601", textDecoration: "none" }}
-              target="_blank"
-              rel="noopener noreferrer"
+      <Element name="Projects" className="section Projects" id="Projects">
+        <Element
+          name="TwitterClone"
+          className="section Inner TwitterClone"
+          id="TwitterClone"
+        >
+          <div className="text">
+            <h1
+              style={{
+                fontSize: "3.5rem",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                lineHeight: 0.9,
+              }}
             >
-              GitHub
-            </a>
-            !
-          </p>
-        </div>
-        <div className="model"></div>
+              Twitter Clone
+            </h1>
+            <p>
+              This project is a full-featured Twitter clone built using HTML,
+              CSS, PHP, and JavaScript. It implements the core functionality of
+              a social media platform, providing a user-friendly environment for
+              interaction, sharing, and communication. The application allows
+              users to create accounts, log in, and engage with content in a
+              variety of ways. This was my first exposure to web development, so
+              UI is fairly poor, but functionality is complex. <br />
+              <a
+                href="https://github.com/Nolan-Olhausen/Twitter-Clone"
+                style={{ color: "#EC7601", textDecoration: "none" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub Repo
+              </a>
+            </p>
+          </div>
+          <div className="model"><img src="images/websitePics.png" width="400" height="400" /></div>
+        </Element>
+        <Element
+          name="EaglesBrew"
+          className="section Inner EaglesBrew"
+          id="EaglesBrew"
+        >
+          <div className="text">
+            <h1
+              style={{
+                fontSize: "3.5rem",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                lineHeight: 0.9,
+              }}
+            >
+              Eagles Brew
+            </h1>
+            <p>
+              A WIP mobile ordering app for a coffee shop, built with Flutter
+              and integrated with the Square API for secure and seamless payment
+              processing. This app allows customers to continue as a guest or
+              create/login to an account, explore the menu, customize their
+              order, and place orders. Products, rewards, and other info
+              dynamically loaded from API. <br />
+              <a
+                href="https://github.com/Nolan-Olhausen/Mobile-Ordering-App"
+                style={{ color: "#EC7601", textDecoration: "none" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub Repo
+              </a>
+            </p>
+          </div>
+          <div className="model">
+            <img src="images/appMockups.png" width="400" height="400" />
+          </div>
+        </Element>
+        <Element
+          name="Emulator"
+          className="section Inner Emulator"
+          id="Emulator"
+        >
+          <div className="text">
+            <h1
+              style={{
+                fontSize: "3.5rem",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                lineHeight: 0.9,
+              }}
+            >
+              Gameboy Advance Emulator
+            </h1>
+            <p>
+              Game Boy Advance emulator written in C. Currently a WIP with CPU
+              {"("}ARM and THUMB{")"}, Memory, and some Video modes passing all
+              tests. Audio and remaining video modes in advanced debugging.{" "}
+              <br />
+              <a
+                href="https://github.com/Nolan-Olhausen/GBA-Emulator"
+                style={{ color: "#EC7601", textDecoration: "none" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub Repo
+              </a>
+            </p>
+          </div>
+          <div className="model">
+            <img src="images/armwrestlerPass.gif" width="400" height="400" />
+          </div>
+        </Element>
+        <Element
+          name="Portfolio"
+          className="section Inner Portfolio"
+          id="Portfolio"
+        >
+          <div className="text">
+            <h1
+              style={{
+                fontSize: "3.5rem",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                lineHeight: 0.9,
+              }}
+            >
+              Portfolio & Projects
+            </h1>
+            <p>
+              Here are some of the projects I've worked on, showcasing my skills
+              in web, mobile, and game development. From building dynamic web
+              apps to crafting engaging mobile experiences and immersive games,
+              I love bringing ideas to life through code. If you want to see
+              more, check out my{" "}
+              <a
+                href="https://github.com/Nolan-Olhausen"
+                style={{ color: "#EC7601", textDecoration: "none" }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+              !
+            </p>
+          </div>
+          <div className="model"></div>
+        </Element>
       </Element>
       <Element name="Contact" className="section Contact" id="Contact">
         <div className="text">

@@ -77,8 +77,9 @@ code {
 /* Emoji inside the switch */
 .emoji {
   position: absolute;
-  left: 5px;
-  font-size: 18px;
+  left: 6px;
+  top: 4px;
+  font-size: 24px;
   transition: transform 0.3s ease;
 }
 
@@ -88,7 +89,7 @@ input:checked + .slider::before {
 }
 
 input:checked + .slider .emoji {
-  transform: translateX(34px); /* Moves emoji with the circle */
+  transform: translateX(33px); /* Moves emoji with the circle */
 }
 
 /* Light Mode Styles */
@@ -295,9 +296,15 @@ body[data-theme='dark'] {
   
 }
 
-.Portfolio {
-  
+.Projects {
+  width: 400vw;
 }
+
+.Projects .Inner {
+  width: 100vw;
+  padding: 50px;
+}
+
 
 .Contact {
   

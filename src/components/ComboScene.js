@@ -38,7 +38,7 @@ function ComboScene() {
         scale={1}
         rotationSpeed={0.4}
       />
-      <EmissiveCircle position={[1.5, -1, 0]} color="#FE9900" />
+      <EmissiveCircle position={[1.5, -1, 0]} color="#FF9907" />
 
     </Canvas>
   );

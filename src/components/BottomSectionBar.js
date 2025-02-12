@@ -41,14 +41,14 @@ const BottomSectionBar = ({ sections, currentSection }) => {
           {currentSection === "Contact" ? <FaChevronUp /> : <FaChevronDown />}
         </div>
       </div>
-      <button
+      <div className="bottom-navbar-right">
+        <button
           className="nav-button"
-          onClick={() =>
-            window.open("/path/to/your/file.pdf", "_blank")
-          }
+          onClick={() => window.open("/path/to/your/file.pdf", "_blank")}
         >
           Resume
         </button>
+      </div>
     </div>
   );
 };

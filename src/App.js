@@ -1,10 +1,5 @@
 import "./App.css";
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 import NavBar from "./components/NavBar";
 import BottomSectionBar from "./components/BottomSectionBar";
@@ -179,14 +174,7 @@ const App = () => {
       </div>
       <Element name="Home" className="section Home" id="Home">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
+          <h1>
             Full-Stack Software{" "}
             <span style={{ display: "block" }}>Developer</span>
           </h1>
@@ -198,25 +186,16 @@ const App = () => {
           </p>
         </div>
         <div className="model">
-        <DotLottieReact
-      src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
-      loop
-      autoplay
-    />
+          <DotLottieReact
+            src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
+            loop
+            autoplay
+          />
         </div>
       </Element>
       <Element name="About" className="section About" id="About">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
-            👋 Hi, I'm Nolan!
-          </h1>
+          <h1>👋 Hi, I'm Nolan!</h1>
           <p>
             Passionate about <strong>web, mobile, and game development</strong>,
             I thrive on crafting innovative and user-friendly digital
@@ -234,36 +213,20 @@ const App = () => {
             .{" "}
           </p>
         </div>
-        <div className="image-container">
-          <img
-            className="circle-bg"
-            src="blackBack.png"
-            alt="Background circle"
-          />
-          <img
-            className="headshot"
-            src="headshot.png"
-            alt="Nolan"
-            style={{
-              width: "400px",
-              height: "400px",
-              objectFit: "cover",
-            }}
-          />
+        <div className="model">
+          <div className="image-container">
+            <img
+              className="circle-bg"
+              src="blackBack.png"
+              alt="Background circle"
+            />
+            <img className="headshot" src="headshot.png" alt="Nolan" />
+          </div>
         </div>
       </Element>
       <Element name="Skills" className="section Skills" id="Skills">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
-            Skills & Experience
-          </h1>
+          <h1>Skills & Experience</h1>
           <p>
             As a full-stack developer, I specialize in{" "}
             <strong>mobile development</strong> with <strong>Flutter</strong>,
@@ -283,7 +246,7 @@ const App = () => {
             Check out my{" "}
             <a
               href="/path/to/resume.pdf"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -292,7 +255,9 @@ const App = () => {
             for more details!
           </p>
         </div>
-        <Skills />
+        <div className="model">
+          <Skills />
+        </div>
       </Element>
       <Element name="Projects" className="section Projects" id="Projects">
         <Element
@@ -301,16 +266,7 @@ const App = () => {
           id="TwitterClone"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Twitter Clone
-            </h1>
+            <h1>Twitter Clone</h1>
             <p>
               This project is a full-featured Twitter clone built using HTML,
               CSS, PHP, and JavaScript. It implements the core functionality of
@@ -320,7 +276,7 @@ const App = () => {
               variety of ways. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Twitter-Clone"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -329,7 +285,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/websitePics.png" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/websitePics.png"
+              alt="Twitter Clone"
+            />
           </div>
         </Element>
         <Element
@@ -338,16 +298,7 @@ const App = () => {
           id="EaglesBrew"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Eagles Brew
-            </h1>
+            <h1>Eagles Brew</h1>
             <p>
               A WIP mobile ordering app for a coffee shop, built with Flutter
               and integrated with the Square API for secure and seamless payment
@@ -357,7 +308,7 @@ const App = () => {
               dynamically loaded from API. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Mobile-Ordering-App"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -366,7 +317,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/appMockups.png" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/appMockups.png"
+              alt="Eagles Brew"
+            />
           </div>
         </Element>
         <Element
@@ -375,16 +330,7 @@ const App = () => {
           id="Emulator"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Gameboy Advance Emulator
-            </h1>
+            <h1>Gameboy Advance Emulator</h1>
             <p>
               Game Boy Advance emulator written in C. Currently a WIP with CPU
               {"("}ARM and THUMB{")"}, Memory, and some Video modes passing all
@@ -392,7 +338,7 @@ const App = () => {
               <br />
               <a
                 href="https://github.com/Nolan-Olhausen/GBA-Emulator"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -401,7 +347,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/armwrestlerPass.gif" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/armwrestlerPass.gif"
+              alt="Gameboy Advance Emulator"
+            />
           </div>
         </Element>
         <Element
@@ -410,16 +360,7 @@ const App = () => {
           id="Portfolio"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Portfolio & Projects
-            </h1>
+            <h1>Portfolio & Projects</h1>
             <p>
               Here are some of the projects I've worked on, showcasing my skills
               in web, mobile, and game development. From building dynamic web
@@ -428,7 +369,7 @@ const App = () => {
               more, check out my{" "}
               <a
                 href="https://github.com/Nolan-Olhausen"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -437,7 +378,9 @@ const App = () => {
               !
             </p>
           </div>
-          <div className="model"><ComboScene /></div>
+          <div className="model">
+            <ComboScene />
+          </div>
         </Element>
       </Element>
       <Element name="Contact" className="section Contact" id="Contact">
@@ -460,7 +403,7 @@ const App = () => {
             Email:{" "}
             <a
               href="mailto:olhausennolan@gmail.com"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
             >
               olhausennolan@gmail.com
             </a>{" "}
@@ -475,7 +418,7 @@ const App = () => {
             Phone:{" "}
             <a
               href="tel:+19517468058"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
             >
               +1 951 746-8058
             </a>{" "}
@@ -490,7 +433,7 @@ const App = () => {
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/nolan-olhausen-8a0ab3280"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
             >
               Nolan Olhausen

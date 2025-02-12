@@ -88,8 +88,8 @@ const Pin = ({
     >
       <sphereGeometry args={[0.05, 16, 16]} />
       <meshStandardMaterial
-        color="#FE9900"
-        emissive={new THREE.Color(0xFE9900)}
+        color="#FF9907"
+        emissive={new THREE.Color(0xFF9907)}
         emissiveIntensity={1} // Adjust the intensity of the emission
       />
     </mesh>

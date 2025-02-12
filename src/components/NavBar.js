@@ -1,9 +1,11 @@
-// src/components/NavBar.js
 import "../index.css";
-import React from "react";
+import React, { useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const NavBar = () => {
+  // State to toggle the mobile menu
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -16,7 +18,14 @@ const NavBar = () => {
         </div>
         <h1>HAWKE . dev</h1>
       </div>
-      <div className="navbar-right">
+      {/* Hamburger icon */}
+      <div className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        <span className="hamburger-bar"></span>
+        <span className="hamburger-bar"></span>
+        <span className="hamburger-bar"></span>
+      </div>
+      {/* Menu items */}
+      <div className={`navbar-right ${menuOpen ? "show" : ""}`}>
         <button
           className="nav-button"
           onClick={() =>
@@ -63,3 +72,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

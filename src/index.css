@@ -8,16 +8,7 @@ body {
   --switch-bg: transparent;
   --switch-border: white;
   --switch-circle: white;
-}
 
-.text h1 {
-  font-size: 3.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  line-height: 0.9;
-}
-
-body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -27,68 +18,16 @@ body {
   overflow: hidden;
 }
 
+.text h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  line-height: 0.9;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 72px;
-  height: 40px;
-  margin-right: 20px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--switch-bg, #ddd);
-  border-radius: 34px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  border: 2px solid var(--switch-border, #bbb);
-}
-
-.slider::before {
-  content: "";
-  position: absolute;
-  width: 36px;
-  height: 36px;
-  background-color: var(--switch-circle, white); /* Default circle color */
-  border-radius: 50%;
-  transition: transform 0.3s ease;
-  transform: translateX(-4px); /* Default position */
-}
-
-/* Emoji inside the switch */
-.emoji {
-  position: absolute;
-  left: 6px;
-  top: 4px;
-  font-size: 24px;
-  transition: transform 0.3s ease;
-}
-
-/* Move elements when checked */
-input:checked + .slider::before {
-  transform: translateX(28px); /* Moves circle to the right */
-}
-
-input:checked + .slider .emoji {
-  transform: translateX(33px); /* Moves emoji with the circle */
 }
 
 .nav-button {
@@ -113,81 +52,36 @@ input:checked + .slider .emoji {
   height: 75px;
 }
 
-.contact-button:hover {
-  background-color: var(--button-hover-bg);
-  color: var(--button-hover-color);
-}
-
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 10px 10px;
+  padding: 1vh 4vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: transparent; /* Transparent background */
-  box-shadow: none; /* Remove any box shadow */
-  z-index: 1000; /* Keep it on top */
+  background-color: transparent;
+  box-shadow: none;
+  z-index: 1000;
 }
 
 .navbar-left {
   display: flex;
-  align-items: center; /* Align items vertically */
-  gap: 10px; /* Add spacing between icon and text */
+  align-items: center;
+  gap: 10px;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  margin-right: 25px;
+  margin-right: 7vw;
 }
 
 .bottom-navbar-right {
   display: flex;
   align-items: center;
-}
-
-.bottom-navbar-right button {
-  margin: 10px 0;
-  color: white;
-  background: none;
-  border: none;
-  font-size: 16px;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-/* Hamburger Menu - hidden by default */
-.navbar-hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 1.5rem;
-  width: 30px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.hamburger-bar {
-  height: 4px;
-  background-color: white;
-  width: 100%;
-  border-radius: 2px;
-}
-
-/* Show the menu items when the hamburger is toggled */
-.navbar-right.show {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 60px; /* adjust based on your navbar height */
-  right: 20px;
-  background-color: #333; /* Dark background for mobile menu */
-  padding: 1rem;
-  border-radius: 8px;
+  margin-right: 7vw;
 }
 
 .navbar-right button {
@@ -201,8 +95,37 @@ input:checked + .slider .emoji {
   transition: color 0.3s;
 }
 
-.navbar-right button:hover {
-  color: #FF9907; /* Hover effect */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 10vw;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.hamburger-bar {
+  height: 4px;
+  background-color: white;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.navbar-right.show {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px; 
+  right: 20px;
+  background-color: #333; 
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 1500;
+}
+
+.navbar-right button:hover, .bottom-navbar-right button:hover {
+  color: #FF9907;
 }
 
 .bottom-bar {
@@ -210,24 +133,23 @@ input:checked + .slider .emoji {
   bottom: 0;
   left: 0;
   width: 100vw;
-  padding: 10px 30px;
+  padding: 1vh 4vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: transparent; /* Transparent background */
-  box-shadow: none; /* Remove any box shadow */
+  background-color: transparent;
+  box-shadow: none;
   z-index: 1000;
 }
 
 .bottom-bar .nav-button {
-  margin-right: 60px;
+  margin-right: 7vw;
 }
 
 .scroll-to-next {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px; /* Space from the content */
 }
 
 .scroll-to-next p {
@@ -239,14 +161,14 @@ input:checked + .slider .emoji {
 
 .arrow {
   margin-top: 0px;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   cursor: pointer;
   color: #333;
   transition: transform 0.3s ease;
 }
 
 .arrow:hover {
-  transform: translateY(5px); /* Slight downward motion on hover */
+  transform: translateY(5px);
 }
 
 .section {
@@ -254,20 +176,23 @@ input:checked + .slider .emoji {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 50px;
+  padding: 4vw;
   box-sizing: border-box;
 }
 
 .section .text {
-  flex: 1;
-  text-align: left; /* Default alignment for odd sections */
+  flex: 0.5;
+  text-align: left;
+  padding: 20px;
 }
 
-.section .model {
-  flex: 1;
+.model {
+  flex: 0.5;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 400px;
+  height: 400px;
 }
 
 .section .image-container {
@@ -277,19 +202,8 @@ input:checked + .slider .emoji {
   align-items: center;
 }
 
-/* Flip the order of text and model for even sections */
 .section:nth-child(even) {
   flex-direction: row-reverse;
-}
-
-/* Adjusting some spacing */
-.text {
-  padding: 20px;
-}
-
-.model {
-  width: 400px;
-  height: 400px;
 }
 
 .image-container {
@@ -313,7 +227,7 @@ input:checked + .slider .emoji {
   position: absolute;
   width: 400px;
   height: 400px;
-  z-index: -1; /* Sends it behind */
+  z-index: -1;
 }
 
 .headshot {
@@ -342,7 +256,7 @@ input:checked + .slider .emoji {
 }
 
 .skill-icon {
-  font-size: 5vw; /* Adjust size */
+  font-size: 5vw;
   margin-bottom: 0px;
 }
 
@@ -352,12 +266,48 @@ input:checked + .slider .emoji {
 }
 
 .Projects {
-  width: 400vw;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100vw;
+  height: 100vh;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.Projects::-webkit-scrollbar {
+  display: none;
 }
 
 .Projects .Inner {
+  flex-shrink: 0;
   width: 100vw;
-  padding: 50px;
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+.dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: #333;
 }
 
 .sidebar {
@@ -387,73 +337,94 @@ input:checked + .slider .emoji {
 
 @media (max-width: 1024px) {
   .section {
-    flex-direction: column; /* Stack content vertically */
-    height: 100vh;
-    width: 100vw;
-    padding: 30px;
+    flex-direction: column;
     align-items: center;
   }
 
-  
+  .Projects {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: 100vw;
+    height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .Projects .Inner {
+    flex-shrink: 0;
+    width: 100vw;
+    height: 100vh;
+  }
 
   #EaglesBrew, #Portfolio, #About {
     flex-direction: column;
   }
 
-  .text, .model, .image-container {
-    flex: unset;
-    width: 80vw;
-    height: 35vh;
-    text-align: center; /* Center text for readability */
+  .text {
+    text-align: center;
+  }
+
+  .model, .image-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .text {
+    margin-top: 0vh;
+  }
+
+  .model {
+    margin-bottom: 5vh;
   }
 
   .section .text {
-    margin-top: 5vh;
-    text-align: center; /* Ensure center alignment for text in even sections on small screens */
-  }
-
-  .section .model {
-    margin-bottom: 10vh;
-  }
-
-  .image-container, .model {
-    max-width: 80%;
-    max-height: 35vh;
+    text-align: center;
   }
 
   .skills-container {
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
     height: 25vh;
   }
-
-  .skill-icon {
-    font-size: 30px;
-  }
 }
 
 @media (max-width: 768px) {
   body {
-    font-size: 14px; /* Adjust font size */
+    font-size: 14px;
+  }
+
+  .Projects {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: 100vw;
+    height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .Projects .Inner {
+    flex-shrink: 0;
+    width: 100vw;
+    height: 100vh;
   }
 
   .bottom-bar {
-    padding: 10px 20px; /* Adjust padding */
+    padding: 10px 20px;
   }
 
   .navbar-right {
     display: none;
   }
 
-  /* Show the hamburger icon on small screens */
   .navbar-hamburger {
     display: flex;
   }
 
-  /* When the menu is open, show the menu items */
   .navbar-right.show {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the left in the mobile menu */
+    align-items: flex-start;
   }
 
   .section {
@@ -461,36 +432,31 @@ input:checked + .slider .emoji {
   }
 
   .model, .image-container {
-    width: 100%;
-    height: auto;
+    width: 250px;
+    height: 250px;
   }
 
-  
 }
 
 @media (max-width: 480px) {
-  .bottom-bar {
-    flex-direction: column;
-    align-items: flex-start;
+
+  .Projects {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: 100vw;
+    height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  .section {
-    padding: 10px;
-  }
-
-  .text {
-    padding: 10px;
-  }
-
-  .model, .image-container {
-    max-width: 100%;
+  .Projects .Inner {
+    flex-shrink: 0;
+    width: 100vw;
+    height: 100vh;
   }
 
   .skills-container {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
-
-  .skill-icon {
-    font-size: 40px;
   }
 }

@@ -1,7 +1,7 @@
 // OverlayComponent.js
 import React from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaFileAlt } from "react-icons/fa";
 
 const BottomSectionBar = ({ sections, currentSection }) => {
   // Find the next section based on the current section
@@ -42,12 +42,18 @@ const BottomSectionBar = ({ sections, currentSection }) => {
         </div>
       </div>
       <div className="bottom-navbar-right">
-        <button
-          className="nav-button"
-          onClick={() => window.open("/path/to/your/file.pdf", "_blank")}
+        <a
+          href="https://github.com/Nolan-Olhausen"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "#FE9900",
+            textDecoration: "none",
+            fontSize: "2.5rem",
+          }}
         >
-          Resume
-        </button>
+          <FaFileAlt />
+        </a>
       </div>
     </div>
   );

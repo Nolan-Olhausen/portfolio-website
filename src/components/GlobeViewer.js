@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useErrorBoundary } from "use-error-boundary";
@@ -88,8 +88,8 @@ const Pin = ({
     >
       <sphereGeometry args={[0.05, 16, 16]} />
       <meshStandardMaterial
-        color="#FE9900"
-        emissive={new THREE.Color(0xFE9900)}
+        color="#FF9907"
+        emissive={new THREE.Color(0xFF9907)}
         emissiveIntensity={1} // Adjust the intensity of the emission
       />
     </mesh>
@@ -100,7 +100,27 @@ const GlobeViewer = ({ props, modelPath }) => {
   const { nodes, materials } = useGLTF(modelPath);
   const firstMesh = Object.values(nodes).find((node) => node.isMesh);
   const firstMaterial = Object.values(materials)[0];
-  const globeScale = 3;
+  const [globeScale, setScale] = useState(1);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+
+      if (width <= 768) {
+        setScale(2.25);
+      } else if (width <= 1024) {
+        setScale(2.5);
+      } else {
+        setScale(3);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial scale
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   firstMaterial.emissive = new THREE.Color(0x33b5e5); // Blue glow
   firstMaterial.emissiveIntensity = 2; // Adjust brightness

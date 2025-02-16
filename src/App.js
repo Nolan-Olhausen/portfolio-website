@@ -4,6 +4,7 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  useRef,
 } from "react";
 import { FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
 import NavBar from "./components/NavBar";
@@ -17,23 +18,21 @@ import ComboScene from "./components/ComboScene";
 const App = () => {
   const [activeSection, setActiveSection] = useState("Home"); // Track active section
   const [hoveredSection, setHoveredSection] = useState(null);
+  const projectsRef = useRef(null); // Reference to projects container
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+  const [isVertical, setIsVertical] = useState(true);
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50;
 
   const sections = useMemo(
-    () => [
-      "Home",
-      "About",
-      "Skills",
-      "Portfolio",
-      "Emulator",
-      "EaglesBrew",
-      "TwitterClone",
-      "Contact",
-    ],
+    () => ["Home", "About", "Skills", "Portfolio", "Contact"],
     []
   );
-
-  const sidebarSections = useMemo(
-    () => ["Home", "About", "Skills", "Portfolio", "Contact"],
+  const projects = useMemo(
+    () => ["Portfolio", "Emulator", "EaglesBrew", "TwitterClone"],
     []
   );
 
@@ -49,6 +48,7 @@ const App = () => {
       if (nextIndex >= sections.length) nextIndex = sections.length - 1;
 
       // Scroll to next section without updating activeSection
+      setCurrentProjectIndex(0);
       document
         .getElementById(sections[nextIndex])
         .scrollIntoView({ behavior: "smooth" });
@@ -56,49 +56,55 @@ const App = () => {
     [activeSection, sections]
   );
 
+  const scrollToProject = useCallback(
+    (direction) => {
+      const container = document.getElementById("Projects");
+      if (container) {
+        const containerWidth = container.offsetWidth;
+        const scrollPosition = container.scrollLeft;
+        const newIndex = currentProjectIndex + direction;
+
+        // Prevent scrolling past first or last project
+        if (newIndex >= 0 && newIndex < projects.length) {
+          // Update the current project index
+          setCurrentProjectIndex(newIndex);
+
+          const scrollAmount = direction * containerWidth;
+          container.scrollTo({
+            left: scrollPosition + scrollAmount,
+            behavior: "smooth",
+          });
+        }
+      }
+    },
+    [currentProjectIndex, projects.length]
+  );
+
   useEffect(() => {
+    // Handle mouse wheel (for desktop)
     const onWheel = (event) => {
       event.preventDefault(); // Prevent default vertical scroll behavior
 
-      const projects = document.querySelector(".Projects");
-      const projectWidth = window.innerWidth; // Each project takes up 100vw
-      const isProjects =
-        activeSection === "Portfolio" ||
-        activeSection === "Emulator" ||
-        activeSection === "EaglesBrew" ||
-        activeSection === "TwitterClone"; // Check if we're in the Projects section
-
-      if (isProjects) {
-        // Get current scroll position (translateX) of the projects container
-        const currentTranslateX = parseFloat(
-          window.getComputedStyle(projects).transform.split(",")[4] || 0
-        );
-
-        // Define the maximum scrollable position (last position where you can scroll)
-        const maxTranslateX = -(projects.scrollWidth - window.innerWidth);
-
-        // Check if we are at the first or last project before doing anything
-        if (currentTranslateX === 0 && event.deltaY < 0) {
-          // If at the first project and trying to scroll up, trigger vertical scroll up
+      // If we're in the Portfolio section and trying to scroll horizontally
+      if (activeSection === "Portfolio") {
+        if (currentProjectIndex === 0 && event.deltaY < 0) {
+          // At the first project, scroll up to the previous section
           scrollToSection(-1);
-          return; // Stop execution to prevent horizontal scroll
-        } else if (currentTranslateX === maxTranslateX && event.deltaY > 0) {
-          // If at the last project and trying to scroll down, trigger vertical scroll down
+        } else if (
+          currentProjectIndex === projects.length - 1 &&
+          event.deltaY > 0
+        ) {
+          // At the last project, scroll down to the next section
           scrollToSection(1);
-          return; // Stop execution to prevent horizontal scroll
+        } else {
+          if (event.deltaY < 0) {
+            // Scroll to previous project
+            scrollToProject(-1);
+          } else if (event.deltaY > 0) {
+            // Scroll to next project
+            scrollToProject(1);
+          }
         }
-
-        // If not at the start or end, continue handling horizontal scroll
-        let newTranslateX =
-          currentTranslateX + (event.deltaY > 0 ? -projectWidth : projectWidth);
-
-        // Prevent scrolling too far left or right
-        if (newTranslateX > 0) newTranslateX = 0; // Don't scroll beyond the first project
-        if (newTranslateX < maxTranslateX) newTranslateX = maxTranslateX; // Don't scroll beyond the last project
-
-        // Apply the translateX transform to shift the projects container
-        projects.style.transition = "transform 0.75s ease"; // Smooth transition
-        projects.style.transform = `translateX(${newTranslateX}px)`;
       } else {
         // Handle vertical scrolling for other sections
         if (event.deltaY > 0) {
@@ -109,12 +115,84 @@ const App = () => {
       }
     };
 
+    const onTouchStart = (e) => {
+      setTouchEnd({ x: 0, y: 0 }); // Reset touchEnd on start
+      setTouchStart({
+        x: e.targetTouches[0].clientX,
+        y: e.targetTouches[0].clientY,
+      }); // Set initial touch position
+    };
+  
+    const onTouchMove = (e) => {
+      setTouchEnd({
+        x: e.targetTouches[0].clientX,
+        y: e.targetTouches[0].clientY,
+      }); // Update touchEnd during swipe
+    };
+  
+    const onTouchEnd = () => {
+      if (!touchStart.x || !touchStart.y || !touchEnd.x || !touchEnd.y) return;
+  
+      // Calculate swipe distances
+      const distanceX = touchStart.x - touchEnd.x;
+      const distanceY = touchStart.y - touchEnd.y;
+  
+      // Determine if the swipe is primarily horizontal or vertical
+      const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
+      const isVerticalSwipe = !isHorizontalSwipe;
+  
+      if (isHorizontalSwipe && activeSection === "Portfolio") {
+        // Horizontal swipe (left or right)
+        if (distanceX > minSwipeDistance) {
+          console.log('Swipe Left');
+          if (
+            currentProjectIndex === projects.length - 1
+          ) {
+            // At the last project, scroll down to the next section
+            scrollToSection(1);
+          } else {
+            scrollToProject(1);
+          }
+          // Implement your scroll logic for previous project here
+        } else if (distanceX < -minSwipeDistance) {
+          console.log('Swipe Right');
+          if (
+            currentProjectIndex === 0
+          ) {
+            // At the last project, scroll down to the next section
+            scrollToSection(-1);
+          } else {
+            scrollToProject(-1);
+          }
+          // Implement your scroll logic for next project here
+        }
+      } else if (isVerticalSwipe) {
+        // Vertical swipe (up or down)
+        if (distanceY > minSwipeDistance) {
+          console.log('Swipe Up');
+          scrollToSection(1);
+          // Implement your scroll logic for previous section here
+        } else if (distanceY < -minSwipeDistance) {
+          console.log('Swipe Down');
+          scrollToSection(-1);
+          // Implement your scroll logic for next section here
+        }
+      }
+    };
+
+    // Add event listeners
     window.addEventListener("wheel", onWheel);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
 
     return () => {
       window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [activeSection, scrollToSection]);
+  }, [activeSection, scrollToSection, scrollToProject, currentProjectIndex, projects.length, touchStart.x, touchStart.y, touchEnd.x, touchEnd.y]);
 
   const handleSidebarClick = (section) => {
     document.getElementById(section).scrollIntoView({ behavior: "smooth" });
@@ -126,7 +204,6 @@ const App = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // If we're scrolling through the Projects section, set activeSection to "Projects"
             setActiveSection(entry.target.id);
           }
         });
@@ -134,17 +211,23 @@ const App = () => {
       { threshold: 0.5 } // Trigger when 50% of the section is in view
     );
 
-    sections.forEach((section) => {
+    const sectionsToObserve = [
+      "Home",
+      "About",
+      "Skills",
+      "Portfolio",
+      "Contact",
+    ];
+
+    sectionsToObserve.forEach((section) => {
       const element = document.getElementById(section);
-      if (element) {
-        observer.observe(element);
-      }
+      if (element) observer.observe(element);
     });
 
     return () => {
-      observer.disconnect(); // Clean up the observer on component unmount
+      observer.disconnect();
     };
-  }, [sections]);
+  }, []);
 
   return (
     <div className="App">
@@ -152,7 +235,7 @@ const App = () => {
 
       <div className="sidebar">
         <div className="scrollbar">
-          {sidebarSections.map((section, index) => (
+          {sections.map((section, index) => (
             <div
               key={index}
               className={`scrollbar-section ${
@@ -179,14 +262,7 @@ const App = () => {
       </div>
       <Element name="Home" className="section Home" id="Home">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
+          <h1>
             Full-Stack Software{" "}
             <span style={{ display: "block" }}>Developer</span>
           </h1>
@@ -198,25 +274,16 @@ const App = () => {
           </p>
         </div>
         <div className="model">
-        <DotLottieReact
-      src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
-      loop
-      autoplay
-    />
+          <DotLottieReact
+            src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
+            loop
+            autoplay
+          />
         </div>
       </Element>
       <Element name="About" className="section About" id="About">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
-            👋 Hi, I'm Nolan!
-          </h1>
+          <h1>👋 Hi, I'm Nolan!</h1>
           <p>
             Passionate about <strong>web, mobile, and game development</strong>,
             I thrive on crafting innovative and user-friendly digital
@@ -234,36 +301,20 @@ const App = () => {
             .{" "}
           </p>
         </div>
-        <div className="image-container">
-          <img
-            className="circle-bg"
-            src="blackBack.png"
-            alt="Background circle"
-          />
-          <img
-            className="headshot"
-            src="headshot.png"
-            alt="Nolan"
-            style={{
-              width: "400px",
-              height: "400px",
-              objectFit: "cover",
-            }}
-          />
+        <div className="model">
+          <div className="image-container">
+            <img
+              className="circle-bg"
+              src="blackBack.png"
+              alt="Background circle"
+            />
+            <img className="headshot" src="headshot.png" alt="Nolan" />
+          </div>
         </div>
       </Element>
       <Element name="Skills" className="section Skills" id="Skills">
         <div className="text">
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: "bold",
-              marginBottom: "20px",
-              lineHeight: 0.9,
-            }}
-          >
-            Skills & Experience
-          </h1>
+          <h1>Skills & Experience</h1>
           <p>
             As a full-stack developer, I specialize in{" "}
             <strong>mobile development</strong> with <strong>Flutter</strong>,
@@ -283,7 +334,7 @@ const App = () => {
             Check out my{" "}
             <a
               href="/path/to/resume.pdf"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -292,25 +343,23 @@ const App = () => {
             for more details!
           </p>
         </div>
-        <Skills />
+        <div className="model">
+          <Skills />
+        </div>
       </Element>
-      <Element name="Projects" className="section Projects" id="Projects">
+      <Element
+        name="Projects"
+        className="section Projects"
+        id="Projects"
+        ref={projectsRef}
+      >
         <Element
           name="TwitterClone"
           className="section Inner TwitterClone"
           id="TwitterClone"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Twitter Clone
-            </h1>
+            <h1>Twitter Clone</h1>
             <p>
               This project is a full-featured Twitter clone built using HTML,
               CSS, PHP, and JavaScript. It implements the core functionality of
@@ -320,7 +369,7 @@ const App = () => {
               variety of ways. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Twitter-Clone"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -329,7 +378,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/websitePics.png" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/websitePics.png"
+              alt="Twitter Clone"
+            />
           </div>
         </Element>
         <Element
@@ -338,16 +391,7 @@ const App = () => {
           id="EaglesBrew"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Eagles Brew
-            </h1>
+            <h1>Eagles Brew</h1>
             <p>
               A WIP mobile ordering app for a coffee shop, built with Flutter
               and integrated with the Square API for secure and seamless payment
@@ -357,7 +401,7 @@ const App = () => {
               dynamically loaded from API. <br />
               <a
                 href="https://github.com/Nolan-Olhausen/Mobile-Ordering-App"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -366,7 +410,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/appMockups.png" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/appMockups.png"
+              alt="Eagles Brew"
+            />
           </div>
         </Element>
         <Element
@@ -375,16 +423,7 @@ const App = () => {
           id="Emulator"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Gameboy Advance Emulator
-            </h1>
+            <h1>Gameboy Advance Emulator</h1>
             <p>
               Game Boy Advance emulator written in C. Currently a WIP with CPU
               {"("}ARM and THUMB{")"}, Memory, and some Video modes passing all
@@ -392,7 +431,7 @@ const App = () => {
               <br />
               <a
                 href="https://github.com/Nolan-Olhausen/GBA-Emulator"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -401,7 +440,11 @@ const App = () => {
             </p>
           </div>
           <div className="model">
-            <img src="images/armwrestlerPass.gif" width="400" height="400" />
+            <img
+              className="responsive-image"
+              src="images/armwrestlerPass.gif"
+              alt="Gameboy Advance Emulator"
+            />
           </div>
         </Element>
         <Element
@@ -410,16 +453,7 @@ const App = () => {
           id="Portfolio"
         >
           <div className="text">
-            <h1
-              style={{
-                fontSize: "3.5rem",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                lineHeight: 0.9,
-              }}
-            >
-              Portfolio & Projects
-            </h1>
+            <h1>Portfolio & Projects</h1>
             <p>
               Here are some of the projects I've worked on, showcasing my skills
               in web, mobile, and game development. From building dynamic web
@@ -428,7 +462,7 @@ const App = () => {
               more, check out my{" "}
               <a
                 href="https://github.com/Nolan-Olhausen"
-                style={{ color: "#FE9900", textDecoration: "none" }}
+                style={{ color: "#FF9907", textDecoration: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -437,7 +471,9 @@ const App = () => {
               !
             </p>
           </div>
-          <div className="model"><ComboScene /></div>
+          <div className="model">
+            <ComboScene />
+          </div>
         </Element>
       </Element>
       <Element name="Contact" className="section Contact" id="Contact">
@@ -460,7 +496,7 @@ const App = () => {
             Email:{" "}
             <a
               href="mailto:olhausennolan@gmail.com"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
             >
               olhausennolan@gmail.com
             </a>{" "}
@@ -475,7 +511,7 @@ const App = () => {
             Phone:{" "}
             <a
               href="tel:+19517468058"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
             >
               +1 951 746-8058
             </a>{" "}
@@ -490,7 +526,7 @@ const App = () => {
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/nolan-olhausen-8a0ab3280"
-              style={{ color: "#FE9900", textDecoration: "none" }}
+              style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
             >
               Nolan Olhausen

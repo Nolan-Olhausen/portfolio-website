@@ -4,7 +4,11 @@ import FloatingObject from "./FloatingObject";
 import EmissiveCircle from "./EmissiveCircle";
 
 function ComboScene() {
-  const [scales, setScales] = useState({ keyboard: 7, controller: 2, phone: 1 });
+  const [scales, setScales] = useState({
+    keyboard: 7,
+    controller: 2,
+    phone: 1,
+  });
   const [positions, setPositions] = useState({
     keyboard: [-1.7, 0.2, 0],
     controller: [-0.2, 0.7, -1],
@@ -14,27 +18,33 @@ function ComboScene() {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-
-      if (width <= 768) {
-        setScales({ keyboard: 4, controller: 1.2, phone: 0.6 });
+      if (width <= 480) {
+        setScales({ keyboard: 6, controller: 1.75, phone: 0.9 });
         setPositions({
-          keyboard: [-0.85, -0.4, 0], // Move closer to center
-          controller: [-0.1, 0.2, -2], // Slightly adjust
-          phone: [0.75, -0.1, 0], // Move closer to center
+          keyboard: [-1.1, 0.2, 0],
+          controller: [-0.2, 0.7, -1.5],
+          phone: [0.9, -0.5, 0],
+        });
+      } else if (width <= 768) {
+        setScales({ keyboard: 6, controller: 1.75, phone: 0.9 });
+        setPositions({
+          keyboard: [-1.4, 0.2, 0],
+          controller: [-0.2, 0.7, -1],
+          phone: [1.3, -0.5, 0],
         });
       } else if (width <= 1024) {
-        setScales({ keyboard: 5, controller: 1.6, phone: 0.8 });
+        setScales({ keyboard: 7, controller: 2, phone: 1 });
         setPositions({
-          keyboard: [-1.25, 0.2, 0], 
-          controller: [-0.15, 0.7, -1], 
-          phone: [1.15, -0.5, 0], 
+          keyboard: [-1.7, 0.2, 0],
+          controller: [-0.2, 0.7, -1],
+          phone: [1.5, -0.5, 0],
         });
       } else {
         setScales({ keyboard: 7, controller: 2, phone: 1 });
         setPositions({
-          keyboard: [-1.7, 0.2, 0], 
-          controller: [-0.2, 0.7, -1], 
-          phone: [1.5, -0.5, 0], 
+          keyboard: [-1.7, 0.2, 0],
+          controller: [-0.2, 0.7, -1],
+          phone: [1.5, -0.5, 0],
         });
       }
     };
@@ -58,7 +68,10 @@ function ComboScene() {
         initialRotation={[0, 0, Math.PI / 2]}
         rotationSpeed={0.75}
       />
-      <EmissiveCircle position={[positions.keyboard[0], -1.9, 0]} color="#5DE2E7" />
+      <EmissiveCircle
+        position={[positions.keyboard[0], -1.9, 0]}
+        color="#5DE2E7"
+      />
 
       {/* Controller (center) */}
       <FloatingObject
@@ -68,7 +81,14 @@ function ComboScene() {
         scale={scales.controller}
         rotationSpeed={-0.6}
       />
-      <EmissiveCircle position={[positions.controller[0], positions.controller[1] - 0.5, positions.controller[2]]} color="#7DDA58" />
+      <EmissiveCircle
+        position={[
+          positions.controller[0],
+          positions.controller[1] - 0.5,
+          positions.controller[2],
+        ]}
+        color="#7DDA58"
+      />
 
       {/* Phone (slightly right) */}
       <FloatingObject
@@ -78,10 +98,12 @@ function ComboScene() {
         scale={scales.phone}
         rotationSpeed={0.4}
       />
-      <EmissiveCircle position={[positions.phone[0], positions.phone[1] - 0.5, 0]} color="#FF9907" />
+      <EmissiveCircle
+        position={[positions.phone[0], positions.phone[1] - 0.5, 0]}
+        color="#FF9907"
+      />
     </Canvas>
   );
 }
 
 export default ComboScene;
-

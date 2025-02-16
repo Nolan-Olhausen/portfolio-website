@@ -146,23 +146,23 @@ const App = () => {
         if (distanceX > minSwipeDistance) {
           console.log('Swipe Left');
           if (
-            currentProjectIndex === 0
-          ) {
-            // At the last project, scroll down to the next section
-            scrollToSection(-1);
-          } else {
-            scrollToProject(-1);
-          }
-          // Implement your scroll logic for previous project here
-        } else if (distanceX < -minSwipeDistance) {
-          console.log('Swipe Right');
-          if (
             currentProjectIndex === projects.length - 1
           ) {
             // At the last project, scroll down to the next section
             scrollToSection(1);
           } else {
             scrollToProject(1);
+          }
+          // Implement your scroll logic for previous project here
+        } else if (distanceX < -minSwipeDistance) {
+          console.log('Swipe Right');
+          if (
+            currentProjectIndex === 0
+          ) {
+            // At the last project, scroll down to the next section
+            scrollToSection(-1);
+          } else {
+            scrollToProject(-1);
           }
           // Implement your scroll logic for next project here
         }

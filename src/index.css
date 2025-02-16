@@ -363,19 +363,20 @@ code {
 
   .text {
     text-align: center;
+    width: 85%;
   }
 
   .model, .image-container {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
   }
 
   .text {
-    margin-top: 0vh;
+    margin-top: 2vh;
   }
 
   .model {
-    margin-bottom: 5vh;
+    margin-bottom: 10vh;
   }
 
   .section .text {
@@ -432,13 +433,36 @@ code {
   }
 
   .model, .image-container {
-    width: 250px;
-    height: 250px;
+    width: 375px;
+    height: 375px;
+  }
+
+  .text {
+    width: 75%;
   }
 
 }
 
 @media (max-width: 480px) {
+
+  .text {
+    margin-top: 10vh;
+  }
+
+  .model {
+    margin-bottom: 20vh;
+  }
+
+  .text h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    line-height: 0.9;
+  }
+
+  body {
+    font-size: 12px;
+  }
 
   .Projects {
     display: flex;
@@ -448,6 +472,11 @@ code {
     height: 100vh;
     scrollbar-width: none;
     -ms-overflow-style: none;
+  }
+
+  .model, .image-container {
+    width: 300px;
+    height: 300px;
   }
 
   .Projects .Inner {

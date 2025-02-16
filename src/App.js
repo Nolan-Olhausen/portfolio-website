@@ -314,7 +314,7 @@ const App = () => {
             <br />
             Check out my{" "}
             <a
-              href="Resume.pdf"
+              href="https://nolan-olhausen.github.io/portfolio-website/public/Resume.pdf"
               style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"

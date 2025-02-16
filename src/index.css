@@ -219,8 +219,9 @@ code {
 }
 
 .responsive-image {
-  max-width: 100%;
-  height: auto;
+  position: relative;
+  width: 400px;
+  height: 400px;
 }
 
 .circle-bg {

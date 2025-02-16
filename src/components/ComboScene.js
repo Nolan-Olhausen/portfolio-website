@@ -22,8 +22,8 @@ function ComboScene() {
         setScales({ keyboard: 6, controller: 1.75, phone: 0.9 });
         setPositions({
           keyboard: [-1.1, 0.2, 0],
-          controller: [-0.2, 0.7, -1.5],
-          phone: [0.9, -0.5, 0],
+          controller: [-0.2, 0.4, -1.5],
+          phone: [0.9, -0.2, 0],
         });
       } else if (width <= 768) {
         setScales({ keyboard: 6, controller: 1.75, phone: 0.9 });

@@ -314,7 +314,7 @@ const App = () => {
             <br />
             Check out my{" "}
             <a
-              href="/path/to/resume.pdf"
+              href="Resume.pdf"
               style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
               rel="noopener noreferrer"

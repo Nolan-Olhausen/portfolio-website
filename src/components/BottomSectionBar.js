@@ -38,7 +38,7 @@ const BottomSectionBar = ({ sections, currentSection }) => {
       </div>
       <div className="bottom-navbar-right">
         <a
-          href="https://github.com/Nolan-Olhausen"
+          href="Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           style={{

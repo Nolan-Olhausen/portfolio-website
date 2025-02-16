@@ -50,7 +50,7 @@ function ComboScene() {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Set initial values
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -60,7 +60,6 @@ function ComboScene() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
 
-      {/* Keyboard (slightly left) */}
       <FloatingObject
         modelPath="models/keyboard.glb"
         position={positions.keyboard}
@@ -73,7 +72,6 @@ function ComboScene() {
         color="#5DE2E7"
       />
 
-      {/* Controller (center) */}
       <FloatingObject
         modelPath="models/controller.glb"
         position={positions.controller}
@@ -90,7 +88,6 @@ function ComboScene() {
         color="#7DDA58"
       />
 
-      {/* Phone (slightly right) */}
       <FloatingObject
         modelPath="models/phone.glb"
         position={positions.phone}

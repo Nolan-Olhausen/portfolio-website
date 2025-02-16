@@ -1,20 +1,15 @@
-// OverlayComponent.js
 import React from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { FaGithub, FaFileAlt } from "react-icons/fa";
 
 const BottomSectionBar = ({ sections, currentSection }) => {
-  // Find the next section based on the current section
   const nextSection =
     sections[sections.findIndex((section) => section === currentSection) + 1];
 
-  // Scroll to the next section or the home section if we're at "Contact"
   const scrollToNext = () => {
     if (currentSection === "Contact") {
-      // Scroll to "Home" if current section is "Contact"
       document.getElementById("Home").scrollIntoView({ behavior: "smooth" });
     } else if (nextSection) {
-      // Otherwise scroll to the next section
       document
         .getElementById(nextSection)
         .scrollIntoView({ behavior: "smooth" });

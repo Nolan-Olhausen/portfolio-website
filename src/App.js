@@ -16,15 +16,13 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import ComboScene from "./components/ComboScene";
 
 const App = () => {
-  const [activeSection, setActiveSection] = useState("Home"); // Track active section
+  const [activeSection, setActiveSection] = useState("Home");
   const [hoveredSection, setHoveredSection] = useState(null);
-  const projectsRef = useRef(null); // Reference to projects container
+  const projectsRef = useRef(null);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
-  const [isVertical, setIsVertical] = useState(true);
 
-  // the required distance between touchStart and touchEnd to be detected as a swipe
   const minSwipeDistance = 50;
 
   const sections = useMemo(
@@ -36,7 +34,6 @@ const App = () => {
     []
   );
 
-  // Scroll to next section smoothly
   const scrollToSection = useCallback(
     (direction) => {
       const currentIndex = sections.findIndex(
@@ -47,7 +44,6 @@ const App = () => {
       if (nextIndex < 0) nextIndex = 0;
       if (nextIndex >= sections.length) nextIndex = sections.length - 1;
 
-      // Scroll to next section without updating activeSection
       setCurrentProjectIndex(0);
       document
         .getElementById(sections[nextIndex])
@@ -64,9 +60,7 @@ const App = () => {
         const scrollPosition = container.scrollLeft;
         const newIndex = currentProjectIndex + direction;
 
-        // Prevent scrolling past first or last project
         if (newIndex >= 0 && newIndex < projects.length) {
-          // Update the current project index
           setCurrentProjectIndex(newIndex);
 
           const scrollAmount = direction * containerWidth;
@@ -81,106 +75,84 @@ const App = () => {
   );
 
   useEffect(() => {
-    // Handle mouse wheel (for desktop)
     const onWheel = (event) => {
-      event.preventDefault(); // Prevent default vertical scroll behavior
+      event.preventDefault();
 
-      // If we're in the Portfolio section and trying to scroll horizontally
       if (activeSection === "Portfolio") {
         if (currentProjectIndex === 0 && event.deltaY < 0) {
-          // At the first project, scroll up to the previous section
           scrollToSection(-1);
         } else if (
           currentProjectIndex === projects.length - 1 &&
           event.deltaY > 0
         ) {
-          // At the last project, scroll down to the next section
           scrollToSection(1);
         } else {
           if (event.deltaY < 0) {
-            // Scroll to previous project
             scrollToProject(-1);
           } else if (event.deltaY > 0) {
-            // Scroll to next project
             scrollToProject(1);
           }
         }
       } else {
-        // Handle vertical scrolling for other sections
         if (event.deltaY > 0) {
-          scrollToSection(1); // Scroll down
+          scrollToSection(1);
         } else {
-          scrollToSection(-1); // Scroll up
+          scrollToSection(-1);
         }
       }
     };
 
     const onTouchStart = (e) => {
-      setTouchEnd({ x: 0, y: 0 }); // Reset touchEnd on start
+      setTouchEnd({ x: 0, y: 0 });
       setTouchStart({
         x: e.targetTouches[0].clientX,
         y: e.targetTouches[0].clientY,
-      }); // Set initial touch position
+      });
     };
-  
+
     const onTouchMove = (e) => {
       setTouchEnd({
         x: e.targetTouches[0].clientX,
         y: e.targetTouches[0].clientY,
-      }); // Update touchEnd during swipe
+      });
     };
-  
+
     const onTouchEnd = () => {
       if (!touchStart.x || !touchStart.y || !touchEnd.x || !touchEnd.y) return;
-  
-      // Calculate swipe distances
+
       const distanceX = touchStart.x - touchEnd.x;
       const distanceY = touchStart.y - touchEnd.y;
-  
-      // Determine if the swipe is primarily horizontal or vertical
+
       const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
       const isVerticalSwipe = !isHorizontalSwipe;
-  
+
       if (isHorizontalSwipe && activeSection === "Portfolio") {
-        // Horizontal swipe (left or right)
         if (distanceX > minSwipeDistance) {
-          console.log('Swipe Left');
-          if (
-            currentProjectIndex === projects.length - 1
-          ) {
-            // At the last project, scroll down to the next section
+          console.log("Swipe Left");
+          if (currentProjectIndex === projects.length - 1) {
             scrollToSection(1);
           } else {
             scrollToProject(1);
           }
-          // Implement your scroll logic for previous project here
         } else if (distanceX < -minSwipeDistance) {
-          console.log('Swipe Right');
-          if (
-            currentProjectIndex === 0
-          ) {
-            // At the last project, scroll down to the next section
+          console.log("Swipe Right");
+          if (currentProjectIndex === 0) {
             scrollToSection(-1);
           } else {
             scrollToProject(-1);
           }
-          // Implement your scroll logic for next project here
         }
       } else if (isVerticalSwipe) {
-        // Vertical swipe (up or down)
         if (distanceY > minSwipeDistance) {
-          console.log('Swipe Up');
+          console.log("Swipe Up");
           scrollToSection(1);
-          // Implement your scroll logic for previous section here
         } else if (distanceY < -minSwipeDistance) {
-          console.log('Swipe Down');
+          console.log("Swipe Down");
           scrollToSection(-1);
-          // Implement your scroll logic for next section here
         }
       }
     };
 
-    // Add event listeners
     window.addEventListener("wheel", onWheel);
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
@@ -192,13 +164,22 @@ const App = () => {
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [activeSection, scrollToSection, scrollToProject, currentProjectIndex, projects.length, touchStart.x, touchStart.y, touchEnd.x, touchEnd.y]);
+  }, [
+    activeSection,
+    scrollToSection,
+    scrollToProject,
+    currentProjectIndex,
+    projects.length,
+    touchStart.x,
+    touchStart.y,
+    touchEnd.x,
+    touchEnd.y,
+  ]);
 
   const handleSidebarClick = (section) => {
     document.getElementById(section).scrollIntoView({ behavior: "smooth" });
   };
 
-  // Set up IntersectionObserver to detect the section in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -208,7 +189,7 @@ const App = () => {
           }
         });
       },
-      { threshold: 0.5 } // Trigger when 50% of the section is in view
+      { threshold: 0.5 }
     );
 
     const sectionsToObserve = [
@@ -528,6 +509,7 @@ const App = () => {
               href="https://www.linkedin.com/in/nolan-olhausen-8a0ab3280"
               style={{ color: "#FF9907", textDecoration: "none" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               Nolan Olhausen
             </a>{" "}

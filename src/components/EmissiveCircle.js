@@ -7,7 +7,6 @@ const EmissiveCircle = ({ position = [0, 0, 0], scale = 1, color = "#ff0000" }) 
 
   useFrame(({ clock }) => {
     if (ref.current) {
-      // Scale oscillation for a subtle effect
       const pulse = 1 + Math.sin(clock.getElapsedTime() * 2) * 0.05;
       ref.current.scale.set(pulse * scale, pulse * scale, pulse * scale);
     }
@@ -19,14 +18,13 @@ const EmissiveCircle = ({ position = [0, 0, 0], scale = 1, color = "#ff0000" }) 
         <torusGeometry args={[1, 0.1, 32, 100]} />
         <meshStandardMaterial
           emissive={color}
-          emissiveIntensity={1.5} // Increase intensity for better bloom
+          emissiveIntensity={1.5}
           color={color}
           transparent
           opacity={0.6}
         />
       </mesh>
 
-      {/* Bloom effect */}
       <EffectComposer>
         <Bloom intensity={1.5} luminanceThreshold={0.1} luminanceSmoothing={0.9} />
       </EffectComposer>

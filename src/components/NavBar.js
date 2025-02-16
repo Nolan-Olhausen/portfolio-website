@@ -16,7 +16,7 @@ const NavBar = () => {
             autoplay
           />
         </div>
-        <h1>HAWKE . dev</h1>
+        <h1>NOLANOLHAUSEN.dev</h1>
       </div>
       {/* Hamburger icon */}
       <div className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)}>

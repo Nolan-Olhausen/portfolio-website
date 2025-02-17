@@ -14,10 +14,6 @@ import GlobeViewer from "./components/GlobeViewer";
 import Skills from "./components/SkillsComp";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import ComboScene from "./components/ComboScene";
-import {
-  BrowserRouter as Router,
-  Route, Routes, Navigate
-} from "react-router-dom";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("Home");
@@ -216,13 +212,6 @@ const App = () => {
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/defaultsite">
-            <Navigate to="/" />
-          </Route>
-        </Routes>
-      </Router>
       <NavBar />
 
       <div className="sidebar">

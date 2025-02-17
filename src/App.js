@@ -259,6 +259,7 @@ const App = () => {
             src="https://lottie.host/029513f5-2f14-4324-9af0-7ad23e840554/wnYpsQVtYR.lottie"
             loop
             autoplay
+            style={{ maxWidth: "400px" }}
           />
         </div>
       </Element>

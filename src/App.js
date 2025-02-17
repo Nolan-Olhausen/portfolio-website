@@ -23,7 +23,7 @@ const App = () => {
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
-  const minSwipeDistance = 50;
+  const minSwipeDistance = 100;
 
   const sections = useMemo(
     () => ["Home", "About", "Skills", "Portfolio", "Contact"],

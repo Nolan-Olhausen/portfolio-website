@@ -16,9 +16,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import ComboScene from "./components/ComboScene";
 import {
   BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
+  Route, Routes, Redirect
 } from "react-router-dom";
 
 const App = () => {
@@ -219,11 +217,11 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <Switch>
+        <Routes>
           <Route path="/defaultsite">
             <Redirect to="/" />
           </Route>
-        </Switch>
+        </Routes>
       </Router>
       <NavBar />
 

@@ -491,3 +491,14 @@ code {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 }
+
+@media (max-width: 380px) {
+  body {
+    font-size: 10px;
+  }
+
+  .model, .image-container {
+    width: 250px;
+    height: 250px;
+  }
+}

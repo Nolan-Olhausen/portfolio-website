@@ -241,8 +241,10 @@ code {
 }
 
 .project-button {
+  all: unset;
   color: #FF9907;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .skills-container {

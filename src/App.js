@@ -388,7 +388,17 @@ const App = () => {
                 rel="noopener noreferrer"
               >
                 GitHub Repo
-              </a>
+              </a><br />
+              <button
+                className="project-button"
+                onClick={() =>
+                  document
+                    .getElementById("TwitterClone")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Twitter Clone {">"}
+              </button>
             </p>
           </div>
           <div className="model">
@@ -418,7 +428,17 @@ const App = () => {
                 rel="noopener noreferrer"
               >
                 GitHub Repo
-              </a>
+              </a><br />
+              <button
+                className="project-button"
+                onClick={() =>
+                  document
+                    .getElementById("EaglesBrew")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Eagles Brew {">"}
+              </button>
             </p>
           </div>
           <div className="model">

@@ -497,6 +497,10 @@ code {
     font-size: 10px;
   }
 
+  .skills-container {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+
   .model, .image-container {
     width: 250px;
     height: 250px;

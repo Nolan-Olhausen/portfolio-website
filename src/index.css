@@ -499,6 +499,7 @@ code {
 
   .skills-container {
     height: 20vh;
+    gap: 8px;
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   }
 

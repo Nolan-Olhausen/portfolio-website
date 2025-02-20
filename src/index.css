@@ -240,6 +240,10 @@ code {
   object-fit: cover;
 }
 
+.project-button {
+  color: #FF9907;
+}
+
 .skills-container {
   height: 60vh;
   width: 100%;

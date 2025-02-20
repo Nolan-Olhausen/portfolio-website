@@ -450,7 +450,17 @@ const App = () => {
               >
                 GitHub
               </a>
-              !
+              ! <br />
+              <button
+                className="project-button"
+                onClick={() =>
+                  document
+                    .getElementById("Emulator")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                GBA Emulator {">"}
+              </button>
             </p>
           </div>
           <div className="model">

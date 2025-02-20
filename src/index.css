@@ -497,15 +497,9 @@ code {
     font-size: 10px;
   }
 
-  .skill-icon {
-    font-size: 4.5vw;
-    margin-bottom: 0px;
-  }
-
   .skills-container {
-    gap: 5px;
     height: 20vh;
-    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   }
 
   .model, .image-container {
